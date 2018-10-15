@@ -29,18 +29,18 @@ ga('send', 'pageview');
     
     
     <meta name="keywords" content="Android">
-    <meta name="description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
+    <meta name="description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到相应的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
 <meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在JNI中打印调用栈">
 <meta property="og:url" content="http://www.ench4nt3r.com/2018/04/13/post/index.html">
 <meta property="og:site_name" content="我的世界">
-<meta property="og:description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
+<meta property="og:description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到相应的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-13T14:03:07.957Z">
+<meta property="og:updated_time" content="2018-04-13T18:14:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在JNI中打印调用栈">
-<meta name="twitter:description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
+<meta name="twitter:description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到相应的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
     
         <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
     
@@ -177,15 +177,15 @@ ga('send', 'pageview');
 <li>使用<code>_Unwind_Backtrace</code>函数</li>
 <li>自己编译 libunwind</li>
 </ol>
-<p>第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 <code>utils/CallStack.h</code> 这个头文件，所以得自己使用 <code>dlsym</code> 取得函数地址再调用，但是<code>CallStack</code>是一个 c++ 类，要调用比较麻烦，所以放弃这种方法。</p>
+<p>第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到相应的函数，可是并不能在 NDK中找到 <code>utils/CallStack.h</code> 这个头文件，所以得自己使用 <code>dlsym</code> 取得函数地址再调用，但是<code>CallStack</code>是一个 c++ 类，要调用比较麻烦，所以放弃这种方法。</p>
 <p>第二种方法，这个就比较好了，能找到头文件，也能够成功编译，但是编译器将 <code>libgcc.a</code> 中的 <code>_Unwind_Backtrace</code> 函数跟我的动态库链接，这个实现似乎跟 Android 水土不服，获取的调用栈数量极少。</p>
 <p>第三种，一看就很麻烦，放弃了。</p>
 <p>本来呢，在第二种方法中，我希望的是使用 libunwind 的<code>_Unwind_Backtrace</code> 函数，然而看 libunwind 时发现，它并没有导出这个函数。不过意外的发现了 <code>unw_backtrace</code> 函数，从源码也能看出它具有跟 <code>_Unwind_Backtrace</code> 相同的功能，使用它的效果也是极好的，下面源码奉上：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*Unw_BackTrace_Func)</span><span class="params">(<span class="keyword">void</span>**, <span class="keyword">int</span>)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_backtrace</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> Unw_BackTrace_Func unw_backtrace = <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">if</span> (!unw_backtrace) &#123;</div><div class="line">        <span class="keyword">void</span> *hanle = dlopen(<span class="string">"libunwind.so"</span>, RTLD_NOW);</div><div class="line">        unw_backtrace = (Unw_BackTrace_Func)dlsym(hanle, <span class="string">"unw_backtrace"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">void</span> *buffer[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</div><div class="line">    <span class="keyword">int</span> n = unw_backtrace((<span class="keyword">void</span>**)&amp;buffer, <span class="number">32</span>);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</div><div class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *file = <span class="string">"\t\t\t\t"</span>;</div><div class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *symbol = <span class="string">"\t\t\t\t"</span>;</div><div class="line">        Dl_info info;</div><div class="line">        <span class="keyword">if</span> (dladdr(buffer[i], &amp;info)) &#123;</div><div class="line">            <span class="keyword">if</span> (info.dli_sname) &#123;</div><div class="line">                symbol = info.dli_sname;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (info.dli_fname) &#123;</div><div class="line">                file = info.dli_fname;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        LOGI(<span class="string">"#%02d: %p \t %s \t %s"</span>, i, buffer[i], symbol, file);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*Unw_BackTrace_Func)</span><span class="params">(<span class="keyword">void</span>**, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_backtrace</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> Unw_BackTrace_Func unw_backtrace = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span> (!unw_backtrace) &#123;</span><br><span class="line">        <span class="keyword">void</span> *hanle = dlopen(<span class="string">"libunwind.so"</span>, RTLD_NOW);</span><br><span class="line">        unw_backtrace = (Unw_BackTrace_Func)dlsym(hanle, <span class="string">"unw_backtrace"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> *buffer[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="keyword">int</span> n = unw_backtrace((<span class="keyword">void</span>**)&amp;buffer, <span class="number">32</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *file = <span class="string">"\t\t\t\t"</span>;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *symbol = <span class="string">"\t\t\t\t"</span>;</span><br><span class="line">        Dl_info info;</span><br><span class="line">        <span class="keyword">if</span> (dladdr(buffer[i], &amp;info)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (info.dli_sname) &#123;</span><br><span class="line">                symbol = info.dli_sname;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (info.dli_fname) &#123;</span><br><span class="line">                file = info.dli_fname;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        LOGI(<span class="string">"#%02d: %p \t %s \t %s"</span>, i, buffer[i], symbol, file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>一些参考：</p>
-<p><a href="https://my.oschina.net/bugly/blog/1354954" target="_blank" rel="external">Android 平台 Native 代码的崩溃捕获机制及实现</a></p>
-<p><a href="https://blog.csdn.net/xxooyc/article/details/51001345" target="_blank" rel="external">JNI中如何打印Call Stack</a></p>
-<p><a href="https://blog.csdn.net/freshui/article/details/9456889" target="_blank" rel="external">Android下打印调试堆栈方法</a></p>
+<p><a href="https://my.oschina.net/bugly/blog/1354954" target="_blank" rel="noopener">Android 平台 Native 代码的崩溃捕获机制及实现</a></p>
+<p><a href="https://blog.csdn.net/xxooyc/article/details/51001345" target="_blank" rel="noopener">JNI中如何打印Call Stack</a></p>
+<p><a href="https://blog.csdn.net/freshui/article/details/9456889" target="_blank" rel="noopener">Android下打印调试堆栈方法</a></p>
 
         </div>
 
@@ -193,7 +193,7 @@ ga('send', 'pageview');
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2018-04-13T14:03:07.957Z" itemprop="dateUpdated">2018-04-13 22:03:07</time>
+    最后更新时间：<time datetime="2018-04-13T18:14:02.000Z" itemprop="dateUpdated">2018-04-14 02:14:02</time>
 </span><br>
 
 
@@ -269,7 +269,14 @@ ga('send', 'pageview');
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/10/15/unicorn启用VFP/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">unicorn启用VFP</h4>
+      </a>
+    </div>
   
 
   

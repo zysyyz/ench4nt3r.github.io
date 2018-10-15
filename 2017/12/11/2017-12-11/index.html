@@ -39,7 +39,7 @@ ga('send', 'pageview');
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.ench4nt3r.com/img/B39D759D1CA4E86C.png">
 <meta property="og:image" content="http://www.ench4nt3r.com/img/W3JiE8DmHcOrfZ9r.png">
-<meta property="og:updated_time" content="2018-01-04T11:12:08.531Z">
+<meta property="og:updated_time" content="2018-01-04T11:12:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="某度加固分析">
 <meta name="twitter:description" content="被加密的JNI_OnLoad在IDA中查看JNI_OnLoad函数，可以看见是被加密的。通过IDA调试，在init array中的第一个函数（sub_41764）执行完成后，JNI_OnLoad也被解密了，这样看来sub_41764函数是用来解密JNI_Onload函数咯。 用IDA反编译sub_41764函数，反编译出来的结果根本就不是人能看的，伪代码有大量的花指令，很明显是ollvm中的bcf">
@@ -264,7 +264,7 @@ clean_node(cur_func)
 </code></pre><p>代码中有两个<code>Make*</code>指令，我不知道怎么将一个基本块从图中删除，所以将它们标为数据，视为删除。每当删除一个基本块时，又有可能增加了一个基本块（该基本块只有一个前驱，前驱结点是刚删除的块），所以只有当到达一个不动点时，才结束运行。</p>
 <p><strong>IDA并不保证对所有的x和y都能生成xref，我的解决办法是将数据写回文件，并用IDA重新打开被修改后的文件。</strong></p>
 <h3 id="去除FLA"><a href="#去除FLA" class="headerlink" title="去除FLA"></a>去除FLA</h3><p>去除了bcf后又能看见一个惊喜，反编译出来的代码明显是用FLA混淆的，好了，继续吧。</p>
-<p>去除fla用符号执行是一个很好的选择，可以参考<a href="https://security.tencent.com/index.php/blog/msg/112" target="_blank" rel="external">[1]</a>。</p>
+<p>去除fla用符号执行是一个很好的选择，可以参考<a href="https://security.tencent.com/index.php/blog/msg/112" target="_blank" rel="noopener">[1]</a>。</p>
 <p>在参考1的文章提到，将基本块分为主分发器、子分发器、retn块、真实块、预处理器这几个部分，并且只需要将真实块和retn块连接起来就可以了。在我的样本中，只有一个子分发器，并且同一个真实块有可能跳到的不同分支。</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -644,7 +644,7 @@ def main(cur_func):
 
 if __name__ == &apos;__main__&apos;:
     main(idaapi.get_func(here()))
-</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://security.tencent.com/index.php/blog/msg/112" target="_blank" rel="external">[1] 利用符号执行去除控制流平坦化 </a></p>
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://security.tencent.com/index.php/blog/msg/112" target="_blank" rel="noopener">[1] 利用符号执行去除控制流平坦化 </a></p>
 
         </div>
 
@@ -652,7 +652,7 @@ if __name__ == &apos;__main__&apos;:
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2018-01-04T11:12:08.531Z" itemprop="dateUpdated">2018-01-04 19:12:08</time>
+    最后更新时间：<time datetime="2018-01-04T11:12:10.000Z" itemprop="dateUpdated">2018-01-04 19:12:10</time>
 </span><br>
 
 

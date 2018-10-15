@@ -39,7 +39,7 @@ ga('send', 'pageview');
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.ench4nt3r.com/img/abb4854f756749b00a11719d4a6bdef8.png">
 <meta property="og:image" content="http://www.ench4nt3r.com/img/f70fd543b7c6617edf1d06ff2fbdaff3.png">
-<meta property="og:updated_time" content="2018-02-27T15:32:47.544Z">
+<meta property="og:updated_time" content="2018-02-27T15:32:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ollvm源码分析">
 <meta name="twitter:description" content="分割基本块-mllvm -split: activates basic block splitting. Improve the flattening when applied together. -mllvm -split_num=3: if the pass is activated, applies it 3 times on each basic block. Default: 1 oll">
@@ -692,8 +692,8 @@ op = BinaryOperator::Create(Instruction::Add, op, bo-&gt;getOperand(1), &quot;&q
 op = BinaryOperator::Create(Instruction::Add, op, co, &quot;&quot;, bo);
 bo-&gt;replaceAllUsesWith(op);
 </code></pre><p>上面对应着<code>funcAdd</code>数组的四种替换方法。第一种，将第二个操作数取反，然后改写成减法指令。第二种，将两个操作数都取反，结果相加之后再次取反。第三种，取一个随机数，将随机数与操作数1相加，然后将结果与操作数2相加，最后减去随机数。第四种，取一个随机数，将操作数1减去随机数，然后将结果与操作数2相加，最后加上随机数。</p>
-<p>指令替换的过程都比较简单，也就不再介绍其他的替换方法了，具体可以参考官网：<a href="https://github.com/obfuscator-llvm/obfuscator/wiki/Instructions-Substitution" target="_blank" rel="external">Instructions Substitution</a>。</p>
-<h3 id="字符串加密"><a href="#字符串加密" class="headerlink" title="字符串加密"></a>字符串加密</h3><p>“字符串加密”这个功能不是ollvm的，而是”<a href="https://github.com/GoSSIP-SJTU/Armariris" target="_blank" rel="external">孤挺花</a>“这个项目的，不过它是基于ollvm的，所以也分析看看。</p>
+<p>指令替换的过程都比较简单，也就不再介绍其他的替换方法了，具体可以参考官网：<a href="https://github.com/obfuscator-llvm/obfuscator/wiki/Instructions-Substitution" target="_blank" rel="noopener">Instructions Substitution</a>。</p>
+<h3 id="字符串加密"><a href="#字符串加密" class="headerlink" title="字符串加密"></a>字符串加密</h3><p>“字符串加密”这个功能不是ollvm的，而是”<a href="https://github.com/GoSSIP-SJTU/Armariris" target="_blank" rel="noopener">孤挺花</a>“这个项目的，不过它是基于ollvm的，所以也分析看看。</p>
 <p>与上面的pass不同，字符串加密的pass是继承<code>ModulePass</code>的，所以它的入口函数是<code>runOnModule</code>。</p>
 <pre><code>virtual bool runOnModule(Module &amp;M) {
     std::vector&lt;GlobalVariable*&gt; toDelConstGlob;
@@ -828,7 +828,7 @@ ReturnInst::Create(mod-&gt;getContext(), label_entry);
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2018-02-27T15:32:47.544Z" itemprop="dateUpdated">2018-02-27 23:32:47</time>
+    最后更新时间：<time datetime="2018-02-27T15:32:48.000Z" itemprop="dateUpdated">2018-02-27 23:32:48</time>
 </span><br>
 
 

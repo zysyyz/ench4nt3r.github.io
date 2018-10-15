@@ -37,7 +37,7 @@ ga('send', 'pageview');
 <meta property="og:site_name" content="我的世界">
 <meta property="og:description" content="!! 这篇文章大部分内容丢失了，重要数据一定要备份！ Winafl的参数 covtype - 覆盖类型   覆盖类型分为bb(basic block)和edge两种类型，bb表示在记录被覆盖路径时只记录路径，而不像edge类型还记录从一个路径到另一个路径的转换。   比如以下的例子：  #1:   A -&amp;gt; B -&amp;gt; C -&amp;gt; D -&amp;gt; E #2:   A -&amp;gt; B">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-07-15T15:20:27.000Z">
+<meta property="og:updated_time" content="2017-07-15T15:20:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈Winafl">
 <meta name="twitter:description" content="!! 这篇文章大部分内容丢失了，重要数据一定要备份！ Winafl的参数 covtype - 覆盖类型   覆盖类型分为bb(basic block)和edge两种类型，bb表示在记录被覆盖路径时只记录路径，而不像edge类型还记录从一个路径到另一个路径的转换。   比如以下的例子：  #1:   A -&amp;gt; B -&amp;gt; C -&amp;gt; D -&amp;gt; E #2:   A -&amp;gt; B">
@@ -187,10 +187,10 @@ ga('send', 'pageview');
 <p>#1:   A -&gt; B -&gt; C -&gt; D -&gt; E</p>
 <p>#2:   A -&gt; B -&gt; D -&gt; C -&gt; E</p>
 </blockquote>
-<p>  在bb类型中，只记录了程序走过这5个路径，而不记录走过的顺序，所以bb类型无法区分<code>#1</code>和<code>#2</code>有什么不同。而edge通过以下<a href="http://lcamtuf.coredump.cx/afl/technical_details.txt" target="_blank" rel="external">算法</a>来记录路径的转换。</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cur_location = &lt;COMPILE_TIME_RANDOM&gt;;</div><div class="line">shared_mem[cur_location ^ prev_location]++; </div><div class="line">prev_location = cur_location &gt;&gt; <span class="number">1</span>;</div></pre></td></tr></table></figure>
+<p>  在bb类型中，只记录了程序走过这5个路径，而不记录走过的顺序，所以bb类型无法区分<code>#1</code>和<code>#2</code>有什么不同。而edge通过以下<a href="http://lcamtuf.coredump.cx/afl/technical_details.txt" target="_blank" rel="noopener">算法</a>来记录路径的转换。</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cur_location = &lt;COMPILE_TIME_RANDOM&gt;;</span><br><span class="line">shared_mem[cur_location ^ prev_location]++; </span><br><span class="line">prev_location = cur_location &gt;&gt; <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 <p>  bb类型记录路径在winafl的实现：</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">offset = cur_location - module_base_address;</div><div class="line">offset &amp;= MAP_SIZE - <span class="number">1</span>;</div><div class="line">shared_mem[offset]++;</div></pre></td></tr></table></figure>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">offset = cur_location - module_base_address;</span><br><span class="line">offset &amp;= MAP_SIZE - <span class="number">1</span>;</span><br><span class="line">shared_mem[offset]++;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>target_module &amp;&amp; (target_method || target_offset) - 目标函数</p>
 <p>  当使用<code>target_module</code>参数，则必须指定<code>target_method</code>或<code>target_offset</code>。</p>
@@ -210,7 +210,7 @@ ga('send', 'pageview');
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2017-07-15T15:20:27.000Z" itemprop="dateUpdated">2017-07-15 23:20:27</time>
+    最后更新时间：<time datetime="2017-07-15T15:20:28.000Z" itemprop="dateUpdated">2017-07-15 23:20:28</time>
 </span><br>
 
 
@@ -298,9 +298,9 @@ ga('send', 'pageview');
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2016/11/20/Cve-2012-1876-exploit/" id="post-next" class="post-nav-link">
+      <a href="/2016/11/20/漏洞战争笔记之Cve-2010-3333/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Cve-2012-1876 exploit</h4>
+        <h4 class="title">漏洞战争笔记之Cve-2010-3333</h4>
       </a>
     </div>
   

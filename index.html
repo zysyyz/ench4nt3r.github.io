@@ -145,6 +145,47 @@ ga('send', 'pageview');
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-unicorn启用VFP"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-10-15 21:06:25" datetime="2018-10-15T13:06:25.000Z"  itemprop="datePublished">2018-10-15</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/10/15/unicorn启用VFP/">unicorn启用VFP</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        使用 unicorn 模拟 arm 指令执行时，有时会遇到一些浮点指令（VMOV、VPUSH等），默认情况下 unicorn 会报一个 UC_ERR_INSN_INVALID 错误。
+通过以下代码可以开启VFP支持。
+123456789101112131415161718192021222324252627err = uc_open(UC_ARCH_ARM, UC_MODE_ARM, &am...
+    
+
+        <a href="/2018/10/15/unicorn启用VFP/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-post"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -177,7 +218,7 @@ ga('send', 'pageview');
 使用_Unwind_Backtrace函数
 自己编译 libunwind
 
-第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是C...
+第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到相应的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是C...
     
 
         <a href="/2018/04/13/post/" class="post-more waves-effect waves-button">
@@ -579,52 +620,6 @@ covtype - 覆盖类型
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Fuzz-Winafl/">Fuzz - Winafl</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Cve-2012-1876-exploit"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-11-20 00:00:00" datetime="2016-11-19T16:00:00.000Z"  itemprop="datePublished">2016-11-20</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/11/20/Cve-2012-1876-exploit/">Cve-2012-1876 exploit</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        《漏洞战争》第三章中有讲Cve-2012-1876，书上带的exp如下：
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848...
-    
-
-        <a href="/2016/11/20/Cve-2012-1876-exploit/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/exploit/">exploit</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/漏洞战争/">漏洞战争</a></li></ul>
 
     </div>
     
