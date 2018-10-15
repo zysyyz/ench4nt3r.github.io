@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>某梆加固分析 | 我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android加固">
+    <meta name="description" content="文件验证assets/meta-data/manifest.mf 文件结构 struct __attribute__ ((packed)) manifest {     byte unknow;     char base64_1_len[2];     char *base64_1;     char base64_2[28];     char base64_3[28];     char b">
+<meta name="keywords" content="Android加固">
+<meta property="og:type" content="article">
+<meta property="og:title" content="某梆加固分析">
+<meta property="og:url" content="http://www.ench4nt3r.com/2018/01/11/2018-01-11/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:description" content="文件验证assets/meta-data/manifest.mf 文件结构 struct __attribute__ ((packed)) manifest {     byte unknow;     char base64_1_len[2];     char *base64_1;     char base64_2[28];     char base64_3[28];     char b">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-01-15T08:27:50.685Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="某梆加固分析">
+<meta name="twitter:description" content="文件验证assets/meta-data/manifest.mf 文件结构 struct __attribute__ ((packed)) manifest {     byte unknow;     char base64_1_len[2];     char *base64_1;     char base64_2[28];     char base64_3[28];     char b">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">某梆加固分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">某梆加固分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-01-11T07:15:22.000Z" itemprop="datePublished" class="page-time">
+  2018-01-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#文件验证"><span class="post-toc-number">1.</span> <span class="post-toc-text">文件验证</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Dex文件解密"><span class="post-toc-number">2.</span> <span class="post-toc-text">Dex文件解密</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-2018-01-11"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">某梆加固分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-01-11 15:15:22" datetime="2018-01-11T07:15:22.000Z"  itemprop="datePublished">2018-01-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="文件验证"><a href="#文件验证" class="headerlink" title="文件验证"></a>文件验证</h3><p>assets/meta-data/manifest.mf 文件结构</p>
+<pre><code>struct __attribute__ ((packed)) manifest {
+    byte unknow;
+    char base64_1_len[2];
+    char *base64_1;
+    char base64_2[28];
+    char base64_3[28];
+    char base64_4[28];
+    char base64_5[28];
+    char base64_6[28];
+
+    struct {
+        char sha1_base64[4];
+        char sha256_base64[4];
+        char sha384_base64[4];
+        char sha512_base64[4];
+        char crc[4];
+    } files_sig[1];
+};
+</code></pre><p>然后读取apk每个文件的CRC，将最后四个字节与<code>manifest.file_sig[x].crc</code>对比，并且将所有CRC最后四个字节拼接起来，做一次sha再做base64，与<code>manifest.base64_6</code>对比。</p>
+<h3 id="Dex文件解密"><a href="#Dex文件解密" class="headerlink" title="Dex文件解密"></a>Dex文件解密</h3><p>加密的Dex文件：<code>assets/secDataX.jar</code></p>
+<p>解密函数如下：</p>
+<pre><code>    unsigned int __fastcall sub_EF4F6838(unsigned int result, unsigned __int8 *a2, int a3)
+{
+  int v3; // r6
+  int v4; // r4
+  int v5; // r8
+  signed int v6; // r4
+  int v7; // lr
+  int v8; // r5
+  int v9; // r9
+  int v10; // r12
+  int v11; // lr
+  int v12; // r5
+  int v13; // r4
+  char v14; // r12
+  unsigned __int8 *v15; // lr
+  char v16; // r0
+  int v17; // r8
+  int v18; // t1
+  unsigned __int8 *v19; // r1
+  char v20[256]; // [sp+4h] [bp-124h]
+
+  if ( result &gt;= 0x20000 )
+  {
+    v3 = 0;
+  }
+  else
+  {
+    v3 = 0x20000 - result;
+    if ( (signed int)(0x20000 - result) &gt;= a3 )
+      v3 = a3;
+    a3 -= v3;
+    if ( v3 &gt; 0 )
+    {
+      v4 = 0;
+      v5 = dword_EF522C70;
+      do
+      {
+        v20[v4] = v4;
+        ++v4;
+      }
+      while ( v4 != 256 );
+      v6 = 0;
+      v7 = 0;
+      v8 = 0;
+      do
+      {
+        v9 = (unsigned __int8)v20[v8];
+        v10 = *(unsigned __int8 *)(v5 + v6++);
+        v7 += v10 + v9;
+        if ( v6 &gt; 15 )
+          v6 = 0;
+        v7 = (unsigned __int8)v7;
+        v20[v8++] = v20[(unsigned __int8)v7];
+        v20[v7] = v9;
+      }
+      while ( v8 != 256 );
+      v11 = 0;
+      LOBYTE(v12) = 0;
+      LOBYTE(v13) = 0;
+      while ( v11 != result )
+      {
+        ++v11;
+        v13 = (unsigned __int8)(v13 + 1);
+        v14 = v20[(unsigned __int8)v13];
+        v12 = (unsigned __int8)(v12 + v14);
+        v20[v13] = v20[v12];
+        v20[v12] = v14;
+      }
+      v15 = a2;
+      do
+      {
+        v13 = (unsigned __int8)(v13 + 1);
+        v16 = v20[v13];
+        v12 = (unsigned __int8)(v12 + v16);
+        v20[v13] = v20[v12];
+        v20[v12] = v16;
+        v17 = (unsigned __int8)v20[(unsigned __int8)(v16 + v20[v13])];
+        v18 = *v15++;
+        result = v17 ^ v18;
+        *(v15 - 1) = v17 ^ v18;
+      }
+      while ( v15 != &amp;a2[v3] );
+    }
+  }
+  if ( a3 &gt; 0 )
+  {
+    v19 = &amp;a2[v3];
+    result = (unsigned int)v19;
+    do
+      *v19++ ^= 0xACu;
+    while ( (signed int)&amp;v19[-result] &lt; a3 );
+  }
+  return result;
+}
+</code></pre><p><code>dword_EF522C70</code>是定值，在运行时赋值。可以通过idaemu模拟这个函数解密。</p>
+<pre><code>mu = idaemu.Emu(idaemu.UC_ARCH_ARM, idaemu.UC_MODE_THUMB)
+
+mu.setData(key_addr, xxx)
+mu.setData(0xEF0EBC70, key_addr)
+
+data = # 被加密的Dex的数据
+size = len(data)
+mu.setData(0x7000000, data)
+
+mu.eFunc(0xEF0BF838, None, [0, 0x7000000, size])
+</code></pre><p>通过反射调用<code>makeDexElements</code>加载Dex。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-01-15T08:27:50.685Z" itemprop="dateUpdated">2018-01-15 16:27:50</time>
+</span><br>
+
+
+        
+        本文章仅供学习交流，请勿用于其他用途。如果侵犯了您的权力，请与本人联系。</br>转载请注明出处：<a href="/2018/01/11/2018-01-11/" target="_blank" rel="external">http://www.ench4nt3r.com/2018/01/11/2018-01-11/</a>
+        
+    </div>
+    <footer>
+        <a href="http://www.ench4nt3r.com">
+            <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" alt="ench4nt3r">
+            ench4nt3r
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2018/01/11/2018-01-11/&title=《某梆加固分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2018/01/11/2018-01-11/&title=《某梆加固分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2018/01/11/2018-01-11/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《某梆加固分析》 — 我的世界&url=http://www.ench4nt3r.com/2018/01/11/2018-01-11/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2018/01/11/2018-01-11/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/01/31/post/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">某加密加固分析</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/12/11/2017-12-11/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">某度加固分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=2138344"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2018/01/11/2018-01-11/&title=《某梆加固分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2018/01/11/2018-01-11/&title=《某梆加固分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2018/01/11/2018-01-11/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《某梆加固分析》 — 我的世界&url=http://www.ench4nt3r.com/2018/01/11/2018-01-11/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2018/01/11/2018-01-11/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJUlEQVR42u3ay07DUAwFwP7/TweJHYuWY/uCFGfuKirQZLIwfr1e8bm+z7tPruAk35z8/uhgYGDclpHcvnd99pNfXg0GBsYDGNVQWA2jeXhN7oKBgYExuX0SHD+HdQwMDIyzATd5lCoAAwMDY1LE9h7984Pmwf1YLY6BgXFDRnUw8J/XfzjfwMDAuAnjKp5qmpjc98BTYWBgrGYkixS9svbzN88Hn+V9EAwMjHWMySpGHlKTpLBQsmJgYCxlVAPfqZ/myxZRWomBgbGa0WvEV8eTeWnae00YGBhPZuRLEj1e9fNCEYuBgbGI0fuivGGXLEn0kD+uMTAwVjPy0jFvjVUXxZL0NE9AMTAw9jHmLf552M3Bb/8KAwPjAYxJMD21TpHfFwMD42mMPLRNBpDV9lkOe1UjNAYGxg0Z1SFi74Hyl1K9LnQNMTAwVjB6ixfl5a3WGmu0ZoGBgbGUMWnWTwrOCbK5P4KBgXFzRq81Vng3raI3/8eAgYGxm5E390+10nqAcoaLgYGxjjEJf9UUsLoKFo1OMTAwVjPy8JqMCqrz0jzpbC5YYGBgrGBcxVNt6CfjhEm6+XYSi4GBsYiRn/xxq+XrfMCAgYHxBMYkyH5O4PJ0c1LQYmBgPIeRhMVROyz+nWbRi4GBgTFo6M9DdgTGwMDAGM8fJpV0cx6LgYGxjpEUsXnCNylik8FqeZCJgYFxc0Y15J1KFqubEgcwGBgY92N8AdNpqHYyDWvZAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

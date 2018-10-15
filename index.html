@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="undefined">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="我的世界">
+<meta property="og:url" content="http://www.ench4nt3r.com/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的世界">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect active">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">我的世界</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header index-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">我的世界</h1>
+        <h5 class="subtitle">
+            
+                0.0
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+<div class="container body-wrap">
+
+    <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-post"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-04-13 21:56:30" datetime="2018-04-13T13:56:30.000Z"  itemprop="datePublished">2018-04-13</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/04/13/post/">在JNI中打印调用栈</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        在网上搜索的Android打印调用栈，实现方式有以下三种：
+
+使用CallStack类
+使用_Unwind_Backtrace函数
+自己编译 libunwind
+
+第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是C...
+    
+
+        <a href="/2018/04/13/post/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-post"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-02-26 13:23:39" datetime="2018-02-26T05:23:39.000Z"  itemprop="datePublished">2018-02-26</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/02/26/post/">ollvm源码分析</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        分割基本块-mllvm -split: activates basic block splitting. Improve the flattening when applied together.
+-mllvm -split_num=3: if the pass is activated, applies it 3 times on each basic block. Default: 1
+...
+    
+
+        <a href="/2018/02/26/post/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ollvm/">ollvm</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-post"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-02-10 11:37:05" datetime="2018-02-10T03:37:05.000Z"  itemprop="datePublished">2018-02-10</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/02/10/post/">数字加固分析</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Dex解密加密后的Dex数据被放在壳classes.dex的末尾。格式如下：
+struct info {
+    byte unknow[4];
+    int  file_len; // 不包含头8个字节
+    int  unknow_data_len;
+    byte *unknow_data;
+    int  dex_number; // 下面数组的数量
+
+    struct ...
+    
+
+        <a href="/2018/02/10/post/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-post"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-01-31 16:09:18" datetime="2018-01-31T08:09:18.000Z"  itemprop="datePublished">2018-01-31</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/01/31/post/">某加密加固分析</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Apk解密加密后的apk文件是assetsi/jiami.dat解密代码如下：
+void decrypt(char *data, long size) {
+    const char *k1 = &quot;Auto-generated destructor stub&quot;;
+
+    for (int i = 0; i &lt; size; i++) {
+        int t...
+    
+
+        <a href="/2018/01/31/post/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-2018-01-11"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-01-11 15:15:22" datetime="2018-01-11T07:15:22.000Z"  itemprop="datePublished">2018-01-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/01/11/2018-01-11/">某梆加固分析</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        文件验证assets/meta-data/manifest.mf 文件结构
+struct __attribute__ ((packed)) manifest {
+    byte unknow;
+    char base64_1_len[2];
+    char *base64_1;
+    char base64_2[28];
+    char base64_3[28];
+    cha...
+    
+
+        <a href="/2018/01/11/2018-01-11/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-2017-12-11"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-12-11 00:00:00" datetime="2017-12-10T16:00:00.000Z"  itemprop="datePublished">2017-12-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/12/11/2017-12-11/">某度加固分析</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        被加密的JNI_OnLoad在IDA中查看JNI_OnLoad函数，可以看见是被加密的。通过IDA调试，在init array中的第一个函数（sub_41764）执行完成后，JNI_OnLoad也被解密了，这样看来sub_41764函数是用来解密JNI_Onload函数咯。
+用IDA反编译sub_41764函数，反编译出来的结果根本就不是人能看的，伪代码有大量的花指令，很明显是ollvm中的...
+    
+
+        <a href="/2017/12/11/2017-12-11/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-legu-reverse"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-09-10 17:37:00" datetime="2017-09-10T09:37:00.000Z"  itemprop="datePublished">2017-09-10</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/09/10/legu-reverse/">乐固（libshella 2.10.5.7）加固分析</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        0x1 init_array[0]函数在第一个init_array函数中，首先会对 0x2000 - 0x3AAC的这块区域解密，解密代码如下：
+1234567891011121314151617181920byte v98 = 43;byte v89 = -111;byte v97 = -103;byte v96 = 32;byte v95 = 21;byte v87 = 0;byte *...
+    
+
+        <a href="/2017/09/10/legu-reverse/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-elf-in-ida"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-07-09 14:51:15" datetime="2017-07-09T06:51:15.000Z"  itemprop="datePublished">2017-07-09</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/07/09/elf-in-ida/">elf.h in IDA</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        可以直接在IDA导入的elf头文件
+    
+
+        <a href="/2017/07/09/elf-in-ida/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IDA/">IDA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elf头文件/">elf头文件</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-winafl-analysis"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-12-17 00:00:00" datetime="2016-12-16T16:00:00.000Z"  itemprop="datePublished">2016-12-17</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/12/17/winafl-analysis/">浅谈Winafl</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+         !! 这篇文章大部分内容丢失了，重要数据一定要备份！
+Winafl的参数
+covtype - 覆盖类型
+  覆盖类型分为bb(basic block)和edge两种类型，bb表示在记录被覆盖路径时只记录路径，而不像edge类型还记录从一个路径到另一个路径的转换。
+  比如以下的例子：
+
+#1:   A -&gt; B -&gt; C -&gt; D -&gt; E
+#2:   A -&gt...
+    
+
+        <a href="/2016/12/17/winafl-analysis/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Fuzz-Winafl/">Fuzz - Winafl</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Cve-2012-1876-exploit"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2016-11-20 00:00:00" datetime="2016-11-19T16:00:00.000Z"  itemprop="datePublished">2016-11-20</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2016/11/20/Cve-2012-1876-exploit/">Cve-2012-1876 exploit</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        《漏洞战争》第三章中有讲Cve-2012-1876，书上带的exp如下：
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848...
+    
+
+        <a href="/2016/11/20/Cve-2012-1876-exploit/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/exploit/">exploit</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/漏洞战争/">漏洞战争</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+    </ul>
+
+    
+<nav id="page-nav">
+    <div class="inner">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    </div>
+</nav>
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/&title=我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/&title=我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=我的世界&url=http://www.ench4nt3r.com/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABWElEQVR42u3aQQ7DIAxE0dz/0nRbqY0zY4Oq2p9VFCHyssCAzXXJbb21+E38vLnBgtWItcIW9/kcR/+ZeDRYsGay7mao0kf5Jf1bsGDB0lnxhxUiLFiwKixlqf5BgIAFqwXLXW71nzm+l4cFqwVLz+rUn4/kt2DB+nPWMtuJI+6Xr8CCNYylT+DKEuuODwvWNFZ8EHWTs24R9LYPLFiDWW66x00nGeEDFqzBrFwRJRdQpO0yLFhjWPrOWi+K5I6+doIJFqymLPfinfJe30DbyzYsWO1Y+mSuFCbtMAEL1mCWGzLc8olxfQEWrJEsHXTuEsNDzQcWrKas3FUAd6q7WwFYsKax6qmlymF1W4yBBasFyw0Ku64X2KdqWLAGsJRNbaliYwYgWLBg5TbHLvehJyxYsOQAoV/F05d2WLAms/TrBW6SyF6kYcEaycotq/FAJ4oxsGA1Zb0AKtXuNqPbTVwAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>某度加固分析 | 我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android加固">
+    <meta name="description" content="被加密的JNI_OnLoad在IDA中查看JNI_OnLoad函数，可以看见是被加密的。通过IDA调试，在init array中的第一个函数（sub_41764）执行完成后，JNI_OnLoad也被解密了，这样看来sub_41764函数是用来解密JNI_Onload函数咯。 用IDA反编译sub_41764函数，反编译出来的结果根本就不是人能看的，伪代码有大量的花指令，很明显是ollvm中的bcf">
+<meta name="keywords" content="Android加固">
+<meta property="og:type" content="article">
+<meta property="og:title" content="某度加固分析">
+<meta property="og:url" content="http://www.ench4nt3r.com/2017/12/11/2017-12-11/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:description" content="被加密的JNI_OnLoad在IDA中查看JNI_OnLoad函数，可以看见是被加密的。通过IDA调试，在init array中的第一个函数（sub_41764）执行完成后，JNI_OnLoad也被解密了，这样看来sub_41764函数是用来解密JNI_Onload函数咯。 用IDA反编译sub_41764函数，反编译出来的结果根本就不是人能看的，伪代码有大量的花指令，很明显是ollvm中的bcf">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.ench4nt3r.com/img/B39D759D1CA4E86C.png">
+<meta property="og:image" content="http://www.ench4nt3r.com/img/W3JiE8DmHcOrfZ9r.png">
+<meta property="og:updated_time" content="2018-01-04T11:12:08.531Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="某度加固分析">
+<meta name="twitter:description" content="被加密的JNI_OnLoad在IDA中查看JNI_OnLoad函数，可以看见是被加密的。通过IDA调试，在init array中的第一个函数（sub_41764）执行完成后，JNI_OnLoad也被解密了，这样看来sub_41764函数是用来解密JNI_Onload函数咯。 用IDA反编译sub_41764函数，反编译出来的结果根本就不是人能看的，伪代码有大量的花指令，很明显是ollvm中的bcf">
+<meta name="twitter:image" content="http://www.ench4nt3r.com/img/B39D759D1CA4E86C.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">某度加固分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">某度加固分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-12-10T16:00:00.000Z" itemprop="datePublished" class="page-time">
+  2017-12-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#被加密的JNI-OnLoad"><span class="post-toc-number">1.</span> <span class="post-toc-text">被加密的JNI_OnLoad</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#去除BCF"><span class="post-toc-number">2.</span> <span class="post-toc-text">去除BCF</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#去除FLA"><span class="post-toc-number">3.</span> <span class="post-toc-text">去除FLA</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sub-41764函数"><span class="post-toc-number">4.</span> <span class="post-toc-text">sub_41764函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JNI-OnLoad函数"><span class="post-toc-number">5.</span> <span class="post-toc-text">JNI_OnLoad函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#加密的字符串"><span class="post-toc-number">6.</span> <span class="post-toc-text">加密的字符串</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程和反调试"><span class="post-toc-number">7.</span> <span class="post-toc-text">线程和反调试</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Dex加载"><span class="post-toc-number">8.</span> <span class="post-toc-text">Dex加载</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解密jar"><span class="post-toc-number">9.</span> <span class="post-toc-text">解密jar</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#去除BCF的脚本源码"><span class="post-toc-number">10.</span> <span class="post-toc-text">去除BCF的脚本源码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考"><span class="post-toc-number">11.</span> <span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-2017-12-11"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">某度加固分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-12-11 00:00:00" datetime="2017-12-10T16:00:00.000Z"  itemprop="datePublished">2017-12-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="被加密的JNI-OnLoad"><a href="#被加密的JNI-OnLoad" class="headerlink" title="被加密的JNI_OnLoad"></a>被加密的JNI_OnLoad</h3><p>在IDA中查看JNI_OnLoad函数，可以看见是被加密的。通过IDA调试，在init array中的第一个函数（sub_41764）执行完成后，JNI_OnLoad也被解密了，这样看来sub_41764函数是用来解密JNI_Onload函数咯。</p>
+<p>用IDA反编译sub_41764函数，反编译出来的结果根本就不是人能看的，伪代码有大量的花指令，很明显是ollvm中的bcf混淆。</p>
+<h3 id="去除BCF"><a href="#去除BCF" class="headerlink" title="去除BCF"></a>去除BCF</h3><p>在ollvm的wiki里面有说bcf的原理，在一些基本块前面加入一个新的基本块，并且这个基本块包含了一个表达式，这个表达式用来控制程序的执行。</p>
+<p>这个表达式是长这样：<code>(y &lt; 10 || x * (x - 1) % 2 == 0)</code>，当表达式结果为True时执行真实的基本块，为False时，不可能的，<code>x * (x - 1)</code>的结果永远是奇数，所以不可能满足条件执行False的执行块。</p>
+<p>由于<code>x</code>和<code>y</code>都是全局变量，使用IDA的xref很容易就找到bcf基本块的位置。可是，找到bcf基本块之后不能直接将这个块给删除掉，因为它很有可能跟一些真实的指令混在一起。</p>
+<p>因此，我们需要将属于bcf的指令和真实的指令分开。做这件事也并不难，通过观察汇编(Thumb)代码，提取到一些BCF使用的指令，构造一个DFA处理他们。状态图如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/B39D759D1CA4E86C.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>其中状态8，期待下一条指令是<code>SUBS</code>，但是在我的样本中，有可能是真实的指令(<code>MOV</code>)，所以仍然将状态转移到8。如果到达完成状态，那么可以将所有bcf指令删除掉。需要注意的是，这里有两个完成状态，分别是14和16，状态14的意思是，后面跟随着真实的基本块（bcf表达式为True的后继），所以可以直接将分支指令删除，但是如果是状态16，那么需要插入一个跳转，跳转到<code>BLE</code>指令后面的地址。</p>
+<pre><code>class BCFProcessor:
+    ...
+
+    def check(self, ea):
+        self.state = -1
+        self.patch_ea = []
+
+        while True:
+            ori_state = state
+            mnem = idc.GetMnem(ea)
+            state = self.func_maps[state](mnem) # 对应的状态处理函数
+            if state == -1:
+                return False, ea
+            elif state in (14, 16):
+                break
+
+            if ori_state != state:
+                self.patch_ea.append(ea) # bcf指令，需要删除
+
+            ea += ItemSize(ea)
+
+        self.state = state
+        self.end_ea = ea
+        return True, ea
+
+    ...
+
+
+xrefs = XrefsTo(x)
+
+for xref in xrefs:
+    if xref.frm &lt; cur_func.start_ea or \
+        xref.frm &gt; cur_func.end_ea:
+        continue
+
+    if not is_code(xref.frm):
+        print(&apos;{}: expecting code reference, skip.&apos;.format(hex(xref.frm)))
+        continue
+
+    ret, ea = processor.check(xref.frm)
+    if not ret:
+        print(&apos;{}: unexpected instruction, skip.&apos;.format(hex(ea)))
+        continue
+
+    processor.patch()  # 指令删除（修改为nop指令)
+
+idc.plan_and_wait(cur_func.start_ea, cur_func.end_ea) # 让IDA重新分析该函数
+
+clean_node(cur_func)
+</code></pre><p>上面的清理将很多分支指令给删了，所以出现了很多没有前驱的基本块（bcf表达式为False的后继）。通过遍历图，很容易就能将这些没有前驱的基本块删了。代码如下：</p>
+<pre><code>def clean_node(func):
+    done = False
+    while not done:
+        done = True
+
+        q = idaapi.qflow_chart_t(&quot;The title&quot;, func, 0, 0, idaapi.FC_PREDS)
+        assert(q[0].start_ea == func.start_ea)
+        for n in xrange(1, q.size()):
+            b = q[n]
+            if q.npred(n) != 0: # 判断前驱结点数
+                continue
+
+            done = False
+            size = b.end_ea - b.start_ea
+            MakeUnknown(b.start_ea, size, idaapi.DOUNK_SIMPLE)
+            MakeData(b.start_ea, idaapi.FF_BYTE, size, 0)
+</code></pre><p>代码中有两个<code>Make*</code>指令，我不知道怎么将一个基本块从图中删除，所以将它们标为数据，视为删除。每当删除一个基本块时，又有可能增加了一个基本块（该基本块只有一个前驱，前驱结点是刚删除的块），所以只有当到达一个不动点时，才结束运行。</p>
+<p><strong>IDA并不保证对所有的x和y都能生成xref，我的解决办法是将数据写回文件，并用IDA重新打开被修改后的文件。</strong></p>
+<h3 id="去除FLA"><a href="#去除FLA" class="headerlink" title="去除FLA"></a>去除FLA</h3><p>去除了bcf后又能看见一个惊喜，反编译出来的代码明显是用FLA混淆的，好了，继续吧。</p>
+<p>去除fla用符号执行是一个很好的选择，可以参考<a href="https://security.tencent.com/index.php/blog/msg/112" target="_blank" rel="external">[1]</a>。</p>
+<p>在参考1的文章提到，将基本块分为主分发器、子分发器、retn块、真实块、预处理器这几个部分，并且只需要将真实块和retn块连接起来就可以了。在我的样本中，只有一个子分发器，并且同一个真实块有可能跳到的不同分支。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/W3JiE8DmHcOrfZ9r.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>将子分发器的每个后继结点，从左到右命名，为case1、case2、 case 3、…。其中case6里面有一个if，会导致分支走向改变，分别走向case17和case29。case12和case20共同一个尾部块（预处理器块的前驱）。对于这几个块需要手工处理，其他的可以跟参考[1]那样做。</p>
+<h3 id="sub-41764函数"><a href="#sub-41764函数" class="headerlink" title="sub_41764函数"></a>sub_41764函数</h3><p>首先修改so前0x1000字节的内存属性</p>
+<pre><code>v36 = syscall(125, v35, 4096, 3);// mprotect(v37, 0x1000, PROT_READ | PROT_WRITE)
+</code></pre><p>并且将program header和section header的内容清零</p>
+<pre><code>v45 = *v149;                              // base addr
+*v42 = (int)&amp;(*v44)-&gt;e_ident[v45-&gt;e_phoff];// program header
+*v43 = (*v41)-&gt;e_phentsize * (*v41)-&gt;e_phnum;// program header size
+*v152 = 0;
+while ( 1 )                               // memset(program header, 0, program header size)
+{
+  v47 = 0;
+  if ( *v152 &lt;= (unsigned int)*v43 )
+    v47 = 1;
+  if ( !(v47 &amp; 1) )
+    break;
+  *(_BYTE *)(*v42 + (*v152)++) = 0;
+}
+
+....
+
+*v46 = (*v41)-&gt;e_ehsize;
+for ( *v48 = 0; ; ++*v48 )                // memset(elf header, 0, e_ehsize)
+{
+  v49 = 0;
+  if ( *v48 &lt; (unsigned int)*v46 )
+    v49 = 1;
+  if ( !(v49 &amp; 1) )
+    break;
+  (*v41)-&gt;e_ident[*v48] = 0;
+}
+v18 = v39;
+</code></pre><p>修改 0x2000 - 0x3B971的内存属性</p>
+<pre><code>syscall(125, *v172, *v161, 7);  // mprotect(v172, 0x00039971, PROT_READ | PROT_WRITE | PROT_EXEC)
+</code></pre><p>解密 0x2f75 - 0x3B971</p>
+<pre><code>v15 = v153;                                 // 0x2f75
+for ( *i = 6; ; *i = 6 )                    // for(i = 0; i &lt; 0x0001C4FE; i++)
+{
+  v5 = 0;
+  if ( *v180 &gt;= *v146 )
+    v5 = 1;
+  if ( v5 &amp; 1 )
+    break;
+  *i = 17;
+  *v160 = (int)*v15 + *v180;                // 0x2f75 + i
+  *i = 10;
+  *v159 = (int)off_56008 + (_DWORD)*v15 - *v180 - 1;// 0x389fc + 0x2f75 - i - 1
+  *i = 26;
+  v32 = v160;
+  v33 = v145;
+  *(_BYTE *)v145 = *(_BYTE *)*v160;
+  v34 = v159;
+  *(_BYTE *)*v32 = *(_BYTE *)*v159;         // 0x2f75[i] = *(0x389fc + 0x2f75 - i - 1)
+  *(_BYTE *)*v34 = *(_BYTE *)v33;           // *(0x389fc + 0x2f75 - i - 1) = 0x2f75[i]
+  *i = 16;
+  ++*v180;
+}
+</code></pre><p>从上面的代码可以看出，它将0x2f75 - 0x3B971这块区域的字节调换，达到加密的效果。</p>
+<h3 id="JNI-OnLoad函数"><a href="#JNI-OnLoad函数" class="headerlink" title="JNI_OnLoad函数"></a>JNI_OnLoad函数</h3><p>一番折腾后，终于能看见JNI_Onload函数了。糟糕的是，这个函数也加了BCF，不过还好，用上面的方法也能去掉混淆。</p>
+<p>JNI_OnLoad主要做了这些操作:</p>
+<pre><code>1. 初始化函数指针（该so不直接调用c运行时的函数）
+2. 创建一些线程（反调试以及一些全局变量初始化）
+3. 加载dex
+</code></pre><h3 id="加密的字符串"><a href="#加密的字符串" class="headerlink" title="加密的字符串"></a>加密的字符串</h3><p>大量的字符串被加密了，并且每个解密函数都不一样。逆就懒得逆了，反编译看了一下，它们长的都差不多，用idaemu模拟执行一下也是可以的。</p>
+<pre><code>def get_str(addr, size, uc):
+    return uc.mem_read(addr, size).decode(&apos;ascii&apos;)
+
+def emulate(addr, args):
+    heap_addr = 0x80000
+    head_size = 0x1024
+    malloc_size = [None]
+    def malloc_hook(uc, out, args):
+        malloc_size[0] = args[0]
+        return heap_addr
+
+    mu = idaemu.Emu(idaemu.UC_ARCH_ARM, idaemu.UC_MODE_THUMB)
+    # heap
+    mu.setData(heap_addr, &apos;\x00&apos; * head_size)
+
+    mu.alt(0x000028EC, malloc_hook, 1)
+
+    ret = mu.eFunc(addr, None, args)
+    return get_str(ret, malloc_size[0], mu.curUC)
+</code></pre><p>调用<code>emulate</code>函数就能得到每个字符串原本的模样了。</p>
+<p>对了，idaemu执行thumb的代码会出错，因为它没有对地址加一。在<code>_emulate</code>函数的<code>uc.emu_start</code>调用前加一句就好了</p>
+<pre><code>def _emulate(...):
+    ...
+    if self.mode == UC_MODE_THUMB:
+        startAddr |= 1
+    uc.emu_start(startAddr, stopAddr, timeout=TimeOut, count=Count)
+</code></pre><h3 id="线程和反调试"><a href="#线程和反调试" class="headerlink" title="线程和反调试"></a>线程和反调试</h3><p>这里的反调试很有趣，如果检测到调试状态的话，它会将某些地方的指令修改掉，然后执行到那的时候程序就崩了，遗憾的是，有个全局变量能控制这个行为。将0x56008赋为0的话就可以绕过了（目前没有发现0x56008的其他用途）。</p>
+<p>对于<code>sub_26914</code>和<code>sub_2693C</code>这两个函数，是直接调用了<code>exit</code>来结束程序，不过可以让执行这两个函数的线程直接休眠或者nop掉。</p>
+<h3 id="Dex加载"><a href="#Dex加载" class="headerlink" title="Dex加载"></a>Dex加载</h3><p>为了进行解密，需要在加载之前，Hook一些函数。</p>
+<p>首先校验apk文件中的classes.dex文件的大小是否一致，如果一致，将<code>assets/baiduprotect&lt;i&gt;.jar</code>解压到<code>/data/data/xxxxxxx/.&lt;i&gt;/1.jar</code>，<code>i</code>是一个从1开始的整数。接着，使用类加载器进行加载Dex，在加载Dex的时候会调用到被Hook的函数，这时候进行解密操作。加载完成之后，将Dex加入当前环境，这就完成了解固操作。</p>
+<h3 id="解密jar"><a href="#解密jar" class="headerlink" title="解密jar"></a>解密jar</h3><p>首先对1.jar的前0x1000个字节解密</p>
+<pre><code>/*
+    v8 是密钥，来自程序的签名
+    v6 是指向待解密区域的指针
+    a5 是包名异或之后的值
+*/
+...
+v39 = a3 - 16;
+v19 = (a3 - 16) &amp; 0xFFFFFFF0;
+v12 = (char *)a1 + v19 + 16;
+do
+{
+    v20 = v9;
+    v21 = v8;
+    ((void (__fastcall *)(_DWORD *, int *, int))v9)(v6, &amp;v41, v8); // aes
+    v10 -= 16;
+    v8 = v21;
+    v22 = *v6;
+    v9 = v20;
+    *v6 = *(_DWORD *)a5 ^ v41;
+    *(_DWORD *)a5 = v22;
+    v23 = v6[1];
+    v6[1] = *((_DWORD *)a5 + 1) ^ v42;
+    *((_DWORD *)a5 + 1) = v23;
+    v24 = v6[2];
+    v6[2] = *((_DWORD *)a5 + 2) ^ v43;
+    *((_DWORD *)a5 + 2) = v24;
+    v25 = v6[3];
+    v6[3] = *((_DWORD *)a5 + 3) ^ v44;
+    v6 += 4;
+    *((_DWORD *)a5 + 3) = v25;
+}
+while ( v10 &gt; 0xF );
+...
+</code></pre><p>解密jar完成之后，解压里面的classes.dex到内存，进行类数据的解密和修复。</p>
+<p>在dex文件偏移 file length - 280 处，有一个结构体，记录着类数据相关信息：</p>
+<pre><code>struct java_class_info {
+    int        pos;     // map item 位置
+    int        size;    // 类数据大小
+    int        offset; // 原类数据偏移
+    int        encrypted; // 已加密的类数据偏移
+};
+</code></pre><p>已加密的类数据偏移计算方法是：<code>file length - 280 - java_class_info.encrypted - 4 * 类数量 - java_class_info.size</code>。</p>
+<p>解密类数据:</p>
+<pre><code>v13 = (v10-&gt;dataSize + 1)
+    * (v11 + 1)
+    * (v10-&gt;fieldIdsSize + 1)
+    * (v10-&gt;protoIdsSize + 1)
+    * (v10-&gt;typeIdsSize + 1)
+    * (v10-&gt;stringIdsSize + 1)
+    * (v10-&gt;methodIdsSize + 1);
+v14 = (v13 &gt;&gt; 6) &amp; 0x3FC;
+v15 = (unsigned __int16)v13 &gt;&gt; 8;
+
+v17 = -256 - v14;
+if ( !v15 )
+    v17 = -260;
+
+v31 = &amp;off_553D8;
+sub_3B90C((int)&amp;v31, 0, x + v17, 0x100u);            // x 是上面已加密的类数据偏移计算的结果
+memcpy(java_class_info.offset, x, v18[1]);
+// 解密
+sub_3B758(&amp;v31, java_class_info.offset, java_class_info.size, java_class_info.offset);
+</code></pre><p>上面两个函数就不贴了，都是异或。然后插入一个map item，类型是kDexTypeClassDataItem。</p>
+<pre><code>if ( java_class_info.pos ) {
+    map_off = v6-&gt;pHeader-&gt;mapOff;
+    map_addr = map_off + 4 + base addr;
+    memcpy(&amp;v30, map_addr + 12 * map size, 12);
+
+    // map item 后移
+    for( i = map size; i &gt; java_class_info.pos; i--) {
+        addr = 12 * i + map_addr;
+        memcpy(addr, addr - 12, 12); 
+    }
+
+    memcpy(map_addr + 12 * java_class_info.pos，&amp;v30, 12);
+    *map_addr += 1； 
+    java_class_info.pos = 0;
+}
+</code></pre><p>最后是修复类偏移。</p>
+<pre><code>v8 = sub_119B4(dex, v73, v71, *v7);
+for(int i = 0; i &lt; v71-&gt;pHeader-&gt;classDefsSize; i++) {
+    v16 = &amp;v71-&gt;pClassDefs[i];
+    v16-&gt;classDataOff = ~*(v8 + 4 * i) * 291;
+}
+</code></pre><h3 id="去除BCF的脚本源码"><a href="#去除BCF的脚本源码" class="headerlink" title="去除BCF的脚本源码"></a>去除BCF的脚本源码</h3><pre><code>import idaapi
+
+
+class BCFProcessor:
+    def __init__(self):
+        def state0(mnem):
+            return 1 if mnem in (&apos;LDR.W&apos;, &apos;LDR&apos;) else -1
+        def state1(mnem):
+            return 2 if mnem in (&apos;LDR.W&apos;, &apos;LDR&apos;) else -1
+        def state2(mnem):
+            return 3 if mnem == &apos;ADD&apos; else -1
+        def state3(mnem):
+            return 4 if mnem in (&apos;LDR.W&apos;, &apos;LDR&apos;) else -1
+        def state4(mnem):
+            return 5 if mnem in (&apos;LDR.W&apos;, &apos;LDR&apos;) else -1
+        def state5(mnem):
+            return 6 if mnem in (&apos;LDR.W&apos;, &apos;LDR&apos;) else -1
+        def state6(mnem):
+            if mnem == &apos;SUBS&apos;:
+                return 7
+            elif mnem == &apos;MOV&apos;:
+                return 6
+            return -1
+        def state7(mnem):
+            return 8 if mnem == &apos;MULS&apos; else -1
+        def state8(mnem):
+            return 9 if mnem == &apos;TST.W&apos; else -1
+        def state9(mnem):
+            if mnem == &apos;IT NE&apos;:
+                return 10
+            elif mnem in (&apos;BEQ&apos;, &apos;BEQ.W&apos;):
+                return 11
+            elif mnem in (&apos;SUB.W&apos;, &apos;LDR.W&apos;, &apos;MOV&apos;, &apos;STR.W&apos;):
+                return 9
+            return -1
+        def state10(mnem):
+            return 15 if mnem == &apos;CMPNE&apos; else -1
+        def state11(mnem):
+            return 12 if mnem == &apos;CMP&apos; else -1
+        def state12(mnem):
+            if mnem in (&apos;BGT&apos;, &apos;BGT.W&apos;):
+                return 15
+            elif mnem in (&apos;BLE&apos;, &apos;BLE.W&apos;):
+                return 14
+            return -1
+        def state13(mnem):
+            return 3 if mnem in (&apos;LDR.W&apos;, &apos;LDR&apos;) else -1
+
+        self.func_maps = []
+        for i in xrange(0, 14):
+            self.func_maps.append(locals().get(&apos;state{}&apos;.format(i)))
+
+    def check(self, ea):
+        self.state = -1
+        self.patch_ea = []
+
+        state = 0
+        new_ea = get_prev_ea(ea, 3)
+        if idc.GetMnem(new_ea) not in (&apos;LDR.W&apos;, &apos;LDR&apos;):
+            new_ea = get_prev_ea(ea, 1)
+            assert(idc.GetMnem(new_ea) in (&apos;LDR.W&apos;, &apos;LDR&apos;))
+            state = 13
+
+        ea = new_ea
+        while True:
+            ori_state = state
+            mnem = idc.GetMnem(ea)
+            state = self.func_maps[state](mnem)
+            if state == -1:
+                return False, ea
+            elif state in (14, 15):
+                break
+
+            if ori_state != state:
+                self.patch_ea.append(ea)
+
+            ea += ItemSize(ea)
+
+        self.state = state
+        self.end_ea = ea
+        return True, ea
+
+    def patch(self): 
+        end_size = ItemSize(self.end_ea)
+        target_ea = idc.GetOperandValue(self.end_ea, 0)
+
+        self.patch_ea.append(self.end_ea)
+         for ea in self.patch_ea:
+             ea_size = ItemSize(ea)
+             fill_nop(ea, ea_size)
+             print(&apos;patch: {} - {}&apos;.format(hex(ea), hex(ea + ea_size)))
+
+        if self.state == 14:
+            new_ea = self.end_ea
+            if end_size == 2:
+                new_ea -= 2
+            fill_bw(new_ea, target_ea)
+             print(&apos;new branch: {} -&gt; {}&apos;.format(hex(new_ea), hex(target_ea)))
+
+
+def is_code(ea):
+    return idaapi.getFlags(ea) &amp; idaapi.MS_CLS == idaapi.FF_CODE
+
+
+def fill_nop(start_ea, size):
+    nop_opcode = 0xbf00
+    for i in xrange(0, size, 2):
+        idc.PatchWord(start_ea + i, nop_opcode)
+
+
+def fill_bw(ea, target_ea):
+    offset = (target_ea - ea - 4) / 2
+    imm11 = offset &amp; 0x7ff
+    imm10 = offset &gt;&gt; 11 &amp; 0x3ff 
+    s = 0 if offset &gt;= 0 else 1
+    j1 = offset &gt;&gt; 21 &amp; 1 ^ 1 ^ s
+    j2 = offset &gt;&gt; 20 &amp; 1 ^ 1 ^ s
+
+    idc.PatchWord(ea, 0xf000 | s &lt;&lt; 10 | imm10)
+    idc.PatchWord(ea + 2, 0x9000 | j1 &lt;&lt; 13 | j2 &lt;&lt; 11 | imm11)
+
+
+def get_prev_ea(ea, n):
+    for _ in range(0, n):
+        ea = idc.prev_head(ea)
+
+    assert(ea != idaapi.BADADDR)
+
+    return ea
+
+
+def match_instruction(inst_list, ea):
+    for inst in inst_list:
+        if idc.GetMnem(ea) != inst:
+            return False, ea
+
+        ea += ItemSize(ea)
+
+    return True, ea
+
+
+def clean_node(func):
+    done = False
+    while not done:
+        done = True
+
+        q = idaapi.qflow_chart_t(&quot;The title&quot;, func, 0, 0, idaapi.FC_PREDS)
+        assert(q[0].start_ea == func.start_ea)
+        for n in xrange(1, q.size()):
+            b = q[n]
+            if q.npred(n) != 0:
+                continue
+
+            done = False
+            size = b.end_ea - b.start_ea
+            MakeUnknown(b.start_ea, size, idaapi.DOUNK_SIMPLE)
+            MakeData(b.start_ea, idaapi.FF_BYTE, size, 0)
+
+
+def bcf(x, y, cur_func):
+    processor = BCFProcessor()
+    xrefs = XrefsTo(x)
+
+    for xref in xrefs:
+        if xref.frm &lt; cur_func.start_ea or \
+            xref.frm &gt; cur_func.end_ea:
+            continue
+
+        if not is_code(xref.frm):
+            print(&apos;{}: expecting code reference, skip.&apos;.format(hex(xref.frm)))
+            continue
+
+        ret, ea = processor.check(xref.frm)
+        if not ret:
+            print(&apos;{}: unexpected instruction, skip.&apos;.format(hex(ea)))
+            continue
+
+        processor.patch()
+
+    idc.plan_and_wait(cur_func.start_ea, cur_func.end_ea)
+
+    clean_node(cur_func)
+
+def main(cur_func):
+    x = 0x597F0
+    y = 0x59800
+    # x = 0x597F0 
+    # y = 0x59800
+    bcf(x, y, cur_func)
+
+
+if __name__ == &apos;__main__&apos;:
+    main(idaapi.get_func(here()))
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://security.tencent.com/index.php/blog/msg/112" target="_blank" rel="external">[1] 利用符号执行去除控制流平坦化 </a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-01-04T11:12:08.531Z" itemprop="dateUpdated">2018-01-04 19:12:08</time>
+</span><br>
+
+
+        
+        本文章仅供学习交流，请勿用于其他用途。如果侵犯了您的权力，请与本人联系。</br>转载请注明出处：<a href="/2017/12/11/2017-12-11/" target="_blank" rel="external">http://www.ench4nt3r.com/2017/12/11/2017-12-11/</a>
+        
+    </div>
+    <footer>
+        <a href="http://www.ench4nt3r.com">
+            <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" alt="ench4nt3r">
+            ench4nt3r
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2017/12/11/2017-12-11/&title=《某度加固分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2017/12/11/2017-12-11/&title=《某度加固分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2017/12/11/2017-12-11/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《某度加固分析》 — 我的世界&url=http://www.ench4nt3r.com/2017/12/11/2017-12-11/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2017/12/11/2017-12-11/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/01/11/2018-01-11/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">某梆加固分析</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/09/10/legu-reverse/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">乐固（libshella 2.10.5.7）加固分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=2138344"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2017/12/11/2017-12-11/&title=《某度加固分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2017/12/11/2017-12-11/&title=《某度加固分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2017/12/11/2017-12-11/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《某度加固分析》 — 我的世界&url=http://www.ench4nt3r.com/2017/12/11/2017-12-11/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2017/12/11/2017-12-11/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aQW7jQAwEwPz/0w6w57XdzZEDiK45BYJsqXzozJD8+YnX4996dj1ZyTcn9x8tDAyM2zKSxz972Ot7nj1lduXNT4OBgfEFjFkUvo7I/Od4/dzoHwAGBgZGHLgtPvkGDAwMjGsDN4/gdruJgYGBkRxi84NuDmjD/YKzOAYGxg0ZbWPgL//+YH8DAwPjJoxHufJAzJ97wVthYGCsZrxuN+YjF3mxrG0VFBtQDAyMpYz24JpHZ/Kp2YhGsTXEwMBYwWgjNQnofFwsKb2120oMDIytjFmY5sGdH01n20cMDIxvY5wMbF07YFHHMQYGxmpGPpj1iSGJk0GxqPSGgYGxlNFuGdsi3SfYGBgYWxn5w2Yv3Y5utO+AgYHxDYxh9yAO0JO2waypgIGBsY+Rj23lgxd5Bax99TcHVwwMjKWM2YhD2zzIg3i2JcXAwNjNOKrPlS3PfCtZj3RgYGCsZrQheO2gxgnyP9cxMDBWM2ZF+Vkxrj3EXvYOGBgYt2WclM9md7ZxWZy/MTAwVjNmxbI8mtvWZj3YgYGBsZpxflzMB09nx9RiEAQDA2Mp41GuPBzb1sJsOONpfwMDA2MRoy2WzQ6fJ83Lk60qBgbGJkYessnWMG8DXBXoGBgY38OYFeXzxmS+WRyGPgYGBkY5AHFy+JwV7zAwMDDyqG0bnLOofdOPxcDAWMrImwEnyHx4or2OgYGxm9FG3mvYecEu2RoOMRgYGPdj/AJXzSLgchyMmgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

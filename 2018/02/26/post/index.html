@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>ollvm源码分析 | 我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="ollvm">
+    <meta name="description" content="分割基本块-mllvm -split: activates basic block splitting. Improve the flattening when applied together. -mllvm -split_num=3: if the pass is activated, applies it 3 times on each basic block. Default: 1 oll">
+<meta name="keywords" content="ollvm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ollvm源码分析">
+<meta property="og:url" content="http://www.ench4nt3r.com/2018/02/26/post/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:description" content="分割基本块-mllvm -split: activates basic block splitting. Improve the flattening when applied together. -mllvm -split_num=3: if the pass is activated, applies it 3 times on each basic block. Default: 1 oll">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.ench4nt3r.com/img/abb4854f756749b00a11719d4a6bdef8.png">
+<meta property="og:image" content="http://www.ench4nt3r.com/img/f70fd543b7c6617edf1d06ff2fbdaff3.png">
+<meta property="og:updated_time" content="2018-02-27T15:32:47.544Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ollvm源码分析">
+<meta name="twitter:description" content="分割基本块-mllvm -split: activates basic block splitting. Improve the flattening when applied together. -mllvm -split_num=3: if the pass is activated, applies it 3 times on each basic block. Default: 1 oll">
+<meta name="twitter:image" content="http://www.ench4nt3r.com/img/abb4854f756749b00a11719d4a6bdef8.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">ollvm源码分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">ollvm源码分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-02-26T05:23:39.000Z" itemprop="datePublished" class="page-time">
+  2018-02-26
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#分割基本块"><span class="post-toc-number">1.</span> <span class="post-toc-text">分割基本块</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#控制流平坦化"><span class="post-toc-number">2.</span> <span class="post-toc-text">控制流平坦化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#虚假控制流"><span class="post-toc-number">3.</span> <span class="post-toc-text">虚假控制流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#指令替换"><span class="post-toc-number">4.</span> <span class="post-toc-text">指令替换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字符串加密"><span class="post-toc-number">5.</span> <span class="post-toc-text">字符串加密</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-post"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">ollvm源码分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-02-26 13:23:39" datetime="2018-02-26T05:23:39.000Z"  itemprop="datePublished">2018-02-26</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="分割基本块"><a href="#分割基本块" class="headerlink" title="分割基本块"></a>分割基本块</h3><pre><code>-mllvm -split: activates basic block splitting. Improve the flattening when applied together.
+-mllvm -split_num=3: if the pass is activated, applies it 3 times on each basic block. Default: 1
+</code></pre><p>ollvm的每个混淆pass都是继承<code>FunctionPass</code>，所以他们的入口函数都是<code>runOnFunction</code>。</p>
+<pre><code>bool SplitBasicBlock::runOnFunction(Function &amp;F) {
+  if (!((SplitNum &gt; 1) &amp;&amp; (SplitNum &lt;= 10))) {
+    return false;
+  }
+
+  Function *tmp = &amp;F;
+
+  if (toObfuscate(flag, tmp, &quot;split&quot;)) {
+    split(tmp);
+    ++Split;
+  }
+
+  return false;
+}
+</code></pre><p><code>toObfuscate</code>函数通过查找<code>Functions annotations</code>和<code>flag</code>来判断是否启用了<code>split</code>。</p>
+<pre><code>void SplitBasicBlock::split(Function *f) {
+  std::vector&lt;BasicBlock *&gt; origBB;
+  int splitN = SplitNum;
+
+  // Save all basic blocks
+  for (Function::iterator I = f-&gt;begin(), IE = f-&gt;end(); I != IE; ++I) {
+    origBB.push_back(&amp;*I);
+  }
+</code></pre><p>首先保存所有的基本块。</p>
+<pre><code>for (std::vector&lt;BasicBlock *&gt;::iterator I = origBB.begin(),
+                                         IE = origBB.end();
+     I != IE; ++I) {
+  BasicBlock *curr = *I;
+
+  // No need to split a 1 inst bb
+  // Or ones containing a PHI node
+  if (curr-&gt;size() &lt; 2 || containsPHI(curr)) {
+    continue;
+  }
+
+  // Check splitN and current BB size
+  if ((size_t)splitN &gt; curr-&gt;size()) {
+    splitN = curr-&gt;size() - 1;
+  }
+</code></pre><p>接着遍历所有基本块。如果基本块只有一条指令或者包含PHI结点的，不分割该基本块。</p>
+<pre><code>// Generate splits point
+std::vector&lt;int&gt; test;
+for (unsigned i = 1; i &lt; curr-&gt;size(); ++i) {
+  test.push_back(i);
+}
+
+// Shuffle
+if (test.size() != 1) {
+  shuffle(test);
+  std::sort(test.begin(), test.begin() + splitN);
+}
+</code></pre><p>生成基本块的分割点。</p>
+<pre><code>  // Split
+  BasicBlock::iterator it = curr-&gt;begin();
+  BasicBlock *toSplit = curr;
+  int last = 0;
+  for (int i = 0; i &lt; splitN; ++i) {
+    for (int j = 0; j &lt; test[i] - last; ++j) {
+      ++it;
+    }
+    last = test[i];
+    if(toSplit-&gt;size() &lt; 2)
+      continue;
+    toSplit = toSplit-&gt;splitBasicBlock(it, toSplit-&gt;getName() + &quot;.split&quot;);
+  }
+
+  ++Split;
+}
+</code></pre><p>最后调用<code>splitBasicBlock</code>分割基本块。</p>
+<h3 id="控制流平坦化"><a href="#控制流平坦化" class="headerlink" title="控制流平坦化"></a>控制流平坦化</h3><pre><code>-mllvm -fla: activates control flow flattening
+</code></pre><p>入口函数仍然是<code>runOnFunction</code>：</p>
+<pre><code>bool Flattening::runOnFunction(Function &amp;F) {
+  Function *tmp = &amp;F;
+  // Do we obfuscate
+  if (toObfuscate(flag, tmp, &quot;fla&quot;)) {
+    if (flatten(tmp)) {
+      ++Flattened;
+    }
+  }
+
+  return false;
+}
+</code></pre><p>
+
+<pre><code>bool Flattening::flatten(Function *f) {
+  vector&lt;BasicBlock *&gt; origBB;
+  BasicBlock *loopEntry;
+  BasicBlock *loopEnd;
+  LoadInst *load;
+  SwitchInst *switchI;
+  AllocaInst *switchVar;
+
+  // SCRAMBLER
+  char scrambling_key[16];
+  llvm::cryptoutils-&gt;get_bytes(scrambling_key, 16);
+  // END OF SCRAMBLER
+
+  // Lower switch
+  FunctionPass *lower = createLowerSwitchPass();
+  lower-&gt;runOnFunction(*f);
+</code></pre></p><p>在函数开始，使用<code>LowerSwitchPass</code>去除switch，将switch结构换成if结构。</p>
+<pre><code>// Nothing to flatten
+if (origBB.size() &lt;= 1) {
+  return false;
+}
+</code></pre><p>只有一个基本块的函数将不处理。</p>
+<pre><code>// Get a pointer on the first BB
+Function::iterator tmp = f-&gt;begin();  //++tmp;
+BasicBlock *insert = &amp;*tmp;
+
+// If main begin with an if
+BranchInst *br = NULL;
+if (isa&lt;BranchInst&gt;(insert-&gt;getTerminator())) {
+  br = cast&lt;BranchInst&gt;(insert-&gt;getTerminator());
+}
+
+if ((br != NULL &amp;&amp; br-&gt;isConditional()) ||
+    insert-&gt;getTerminator()-&gt;getNumSuccessors() &gt; 1) {
+  BasicBlock::iterator i = insert-&gt;end();
+  --i;
+
+  if (insert-&gt;size() &gt; 1) {
+    --i;
+  }
+
+  BasicBlock *tmpBB = insert-&gt;splitBasicBlock(i, &quot;first&quot;);
+  origBB.insert(origBB.begin(), tmpBB);
+}
+
+// Remove jump
+  insert-&gt;getTerminator()-&gt;eraseFromParent();
+</code></pre><p>如果第一个基本块的末尾是有条件的跳转指令，那么需要将它分割开，并且将它保存到<code>origBB</code>（这个数组包含着所有的基本块，除了函数的第一个基本块）。</p>
+<pre><code>// Create switch variable and set as it
+switchVar =
+    new AllocaInst(Type::getInt32Ty(f-&gt;getContext()), 0, &quot;switchVar&quot;, insert);
+new StoreInst(
+    ConstantInt::get(Type::getInt32Ty(f-&gt;getContext()),
+                     llvm::cryptoutils-&gt;scramble32(0, scrambling_key)),
+    switchVar, insert);
+</code></pre><p>创建switch变量并且初始化。</p>
+<pre><code>// Create main loop
+loopEntry = BasicBlock::Create(f-&gt;getContext(), &quot;loopEntry&quot;, f, insert);
+loopEnd = BasicBlock::Create(f-&gt;getContext(), &quot;loopEnd&quot;, f, insert);
+
+load = new LoadInst(switchVar, &quot;switchVar&quot;, loopEntry);
+
+// Move first BB on top
+insert-&gt;moveBefore(loopEntry);
+BranchInst::Create(loopEntry, insert);
+
+// loopEnd jump to loopEntry
+BranchInst::Create(loopEntry, loopEnd);
+
+BasicBlock *swDefault =
+    BasicBlock::Create(f-&gt;getContext(), &quot;switchDefault&quot;, f, loopEnd);
+BranchInst::Create(loopEnd, swDefault);
+
+// Create switch instruction itself and set condition
+switchI = SwitchInst::Create(&amp;*f-&gt;begin(), swDefault, 0, loopEntry);
+switchI-&gt;setCondition(load);
+</code></pre><p>创建两个基本块，存放循环头和尾的指令。然后将<code>first bb</code>移到到<code>loopEntry</code>的前面，并且创建一条跳转指令，从<code>first bb</code>跳到<code>loopEntry</code>。紧接着创建了一条从<code>loopEnd</code>跳到<code>loopEntry</code>的指令。最后，创建了<code>switch</code>指令和<code>switch default</code>块，并且创建相应的跳转。现在有了大概如下的结构：</p>
+<pre><code>                  +--------+
+                  |first bb|
+                  +---+----+
+                      |
+                 +----v----+
+                 |loopEntry| &lt;--------+
+                 +----+----+          |
+                      |               |
+                 +----v---+           |
+                 | switch |           |
+                 +----+---+           |
+                      |               |
+       +--------------+               |
+       |                              |
++------v-------+                      |
+| default case |                      |
++------+-------+                      |
+       |                              |
+       +-------------+                |
+                     |                |
+                     |                |
+                     v                |
+               +-----+------+         |
+               |  loopEnd   +---------+
+               +------------+
+</code></pre><p>
+
+<pre><code>// Remove branch jump from 1st BB and make a jump to the while
+  f-&gt;begin()-&gt;getTerminator()-&gt;eraseFromParent();
+
+  BranchInst::Create(loopEntry, &amp;*f-&gt;begin());
+</code></pre></p><p>删除<code>first bb</code>的跳转指令，改为跳转到<code>loopEntry</code></p>
+<pre><code>// Put all BB in the switch
+for (vector&lt;BasicBlock *&gt;::iterator b = origBB.begin(); b != origBB.end();
+     ++b) {
+  BasicBlock *i = *b;
+  ConstantInt *numCase = NULL;
+
+  // Move the BB inside the switch (only visual, no code logic)
+  i-&gt;moveBefore(loopEnd);
+
+  // Add case to switch
+  numCase = cast&lt;ConstantInt&gt;(ConstantInt::get(
+      switchI-&gt;getCondition()-&gt;getType(),
+      llvm::cryptoutils-&gt;scramble32(switchI-&gt;getNumCases(), scrambling_key)));
+  switchI-&gt;addCase(numCase, i);
+}
+</code></pre><p>将所有的基本块加入<code>switch</code>结构</p>
+<pre><code>// Recalculate switchVar
+for (vector&lt;BasicBlock *&gt;::iterator b = origBB.begin(); b != origBB.end();
+     ++b) {
+  BasicBlock *i = *b;
+  ConstantInt *numCase = NULL;
+
+  // Ret BB
+  if (i-&gt;getTerminator()-&gt;getNumSuccessors() == 0) {
+    continue;
+  }
+
+  // If it&apos;s a non-conditional jump
+  if (i-&gt;getTerminator()-&gt;getNumSuccessors() == 1) {
+    // Get successor and delete terminator
+    BasicBlock *succ = i-&gt;getTerminator()-&gt;getSuccessor(0);
+    i-&gt;getTerminator()-&gt;eraseFromParent();
+
+    // Get next case
+    numCase = switchI-&gt;findCaseDest(succ);
+
+    // If next case == default case (switchDefault)
+    if (numCase == NULL) {
+      numCase = cast&lt;ConstantInt&gt;(
+          ConstantInt::get(switchI-&gt;getCondition()-&gt;getType(),
+                           llvm::cryptoutils-&gt;scramble32(
+                               switchI-&gt;getNumCases() - 1, scrambling_key)));
+    }
+
+    // Update switchVar and jump to the end of loop
+    new StoreInst(numCase, load-&gt;getPointerOperand(), i);
+    BranchInst::Create(loopEnd, i);
+    continue;
+}
+</code></pre><p>接下来是根据原先的跳转来计算switch变量。对于没有后继（return BB）的基本块，直接跳过。对于只有一个后继的基本块，首先删除跳转指令，并且通过后继基本块来搜索对应的switch case，根据case创建一条存储指令，达到跳转的目的。</p>
+<pre><code>    // If it&apos;s a conditional jump
+  if (i-&gt;getTerminator()-&gt;getNumSuccessors() == 2) {
+    // Get next cases
+    ConstantInt *numCaseTrue =
+        switchI-&gt;findCaseDest(i-&gt;getTerminator()-&gt;getSuccessor(0));
+    ConstantInt *numCaseFalse =
+        switchI-&gt;findCaseDest(i-&gt;getTerminator()-&gt;getSuccessor(1));
+
+    // Check if next case == default case (switchDefault)
+    if (numCaseTrue == NULL) {
+      numCaseTrue = cast&lt;ConstantInt&gt;(
+          ConstantInt::get(switchI-&gt;getCondition()-&gt;getType(),
+                           llvm::cryptoutils-&gt;scramble32(
+                               switchI-&gt;getNumCases() - 1, scrambling_key)));
+    }
+
+    if (numCaseFalse == NULL) {
+      numCaseFalse = cast&lt;ConstantInt&gt;(
+          ConstantInt::get(switchI-&gt;getCondition()-&gt;getType(),
+                           llvm::cryptoutils-&gt;scramble32(
+                               switchI-&gt;getNumCases() - 1, scrambling_key)));
+    }
+
+    // Create a SelectInst
+    BranchInst *br = cast&lt;BranchInst&gt;(i-&gt;getTerminator());
+    SelectInst *sel =
+        SelectInst::Create(br-&gt;getCondition(), numCaseTrue, numCaseFalse, &quot;&quot;,
+                           i-&gt;getTerminator());
+
+    // Erase terminator
+    i-&gt;getTerminator()-&gt;eraseFromParent();
+
+    // Update switchVar and jump to the end of loop
+    new StoreInst(sel, load-&gt;getPointerOperand(), i);
+    BranchInst::Create(loopEnd, i);
+    continue;
+  }
+}
+</code></pre><p>两个后继的情况跟一个后继的处理方法相似，不同的是，创建一条select指令，根据条件的结果来选择分支。</p>
+<h3 id="虚假控制流"><a href="#虚假控制流" class="headerlink" title="虚假控制流"></a>虚假控制流</h3><pre><code>-mllvm -bcf: activates the bogus control flow pass
+-mllvm -bcf_loop=3: if the pass is activated, applies it 3 times on a function. Default: 1
+-mllvm -bcf_prob=40: if the pass is activated, a basic bloc will be obfuscated with a probability of 40%. Default: 30
+</code></pre><p>
+
+<pre><code>void bogus(Function &amp;F) {
+    ...
+
+    int NumObfTimes = ObfTimes;
+
+    // Real begining of the pass
+    // Loop for the number of time we run the pass on the function
+    do{
+      DEBUG_WITH_TYPE(&quot;cfg&quot;, errs() &lt;&lt; &quot;bcf: Function &quot; &lt;&lt; F.getName()
+          &lt;&lt;&quot;, before the pass:\n&quot;);
+      DEBUG_WITH_TYPE(&quot;cfg&quot;, F.viewCFG());
+      // Put all the function&apos;s block in a list
+      std::list&lt;BasicBlock *&gt; basicBlocks;
+      for (Function::iterator i=F.begin();i!=F.end();++i) {
+        basicBlocks.push_back(&amp;*i);
+      }
+</code></pre></p><p>do循环的条件表达式是<code>--NumObfTimes &gt; 0</code>，<code>NumObfTimes</code>关联着<code>-bcf_loop</code>选项的值。首先，还是保存基本块。</p>
+<pre><code>      while(!basicBlocks.empty()){
+        NumBasicBlocks ++;
+        // Basic Blocks&apos; selection
+
+        if((int)llvm::cryptoutils-&gt;get_range(100) &lt;= ObfProbRate){
+          DEBUG_WITH_TYPE(&quot;opt&quot;, errs() &lt;&lt; &quot;bcf: Block &quot;
+              &lt;&lt; NumBasicBlocks &lt;&lt;&quot; selected. \n&quot;);
+          hasBeenModified = true;
+          ++NumModifiedBasicBlocks;
+          NumAddedBasicBlocks += 3;
+          FinalNumBasicBlocks += 3;
+          // Add bogus flow to the given Basic Block (see description)
+          BasicBlock *basicBlock = basicBlocks.front();
+          addBogusFlow(basicBlock, F);
+        }
+        else{
+          DEBUG_WITH_TYPE(&quot;opt&quot;, errs() &lt;&lt; &quot;bcf: Block &quot;
+              &lt;&lt; NumBasicBlocks &lt;&lt;&quot; not selected.\n&quot;);
+        }
+        // remove the block from the list
+        basicBlocks.pop_front();
+
+        if(firstTime){ // first time we iterate on this function
+          ++InitNumBasicBlocks;
+          ++FinalNumBasicBlocks;
+        }
+      } // end of while(!basicBlocks.empty())
+
+      ....
+    }while(--NumObfTimes &gt; 0);
+}
+</code></pre><p>遍历基本块，随机决定当前基本块是否需要修改，<code>ObfProbRate</code>变量关联着<code>-bcf_prob</code>选项的值。如果命中，则调用<code>addBogusFlow</code>函数。</p>
+<pre><code>virtual void addBogusFlow(BasicBlock * basicBlock, Function &amp;F){
+  ...
+  BasicBlock::iterator i1 = basicBlock-&gt;begin();
+  if(basicBlock-&gt;getFirstNonPHIOrDbgOrLifetime())
+    i1 = (BasicBlock::iterator)basicBlock-&gt;getFirstNonPHIOrDbgOrLifetime();
+  Twine *var;
+  var = new Twine(&quot;originalBB&quot;);
+  BasicBlock *originalBB = basicBlock-&gt;splitBasicBlock(i1, *var);
+</code></pre><p>在<code>addBogusFlow</code>函数中，首先基本块分为两部分，第一部分只包含PHI结点、调试信息、lifttime，第二部分包含着剩余的指令。</p>
+<pre><code>Twine * var3 = new Twine(&quot;alteredBB&quot;);
+BasicBlock *alteredBB = createAlteredBasicBlock(originalBB, *var3, &amp;F);
+</code></pre><p>接着，由<code>createAlteredBasicBlock</code>函数复制基本块，并增加一些花指令。</p>
+<pre><code>Twine * var4 = new Twine(&quot;condition&quot;);
+FCmpInst * condition = new FCmpInst(*basicBlock, FCmpInst::FCMP_TRUE , LHS, RHS, *var4);
+
+BranchInst::Create(originalBB, alteredBB, (Value *)condition, basicBlock);
+
+BranchInst::Create(originalBB, alteredBB);
+</code></pre><p>现在，我们有三个基本块，第一个是<code>basicBlock</code>，<code>addBogusFlow</code>函数的参数，第二个是<code>originalBB</code>，由<code>basicBlock</code>分割出来，第三个是<code>alteredBB</code>，由<code>createAlteredBasicBlock</code>创建的混淆块，然后将主要是将这三个块拼接起来：</p>
+<p><img src="/img/abb4854f756749b00a11719d4a6bdef8.png" alt=""></p>
+<pre><code>BasicBlock::iterator i = originalBB-&gt;end();
+
+Twine * var5 = new Twine(&quot;originalBBpart2&quot;);
+BasicBlock * originalBBpart2 = originalBB-&gt;splitBasicBlock(--i , *var5);
+
+originalBB-&gt;getTerminator()-&gt;eraseFromParent();
+
+Twine * var6 = new Twine(&quot;condition2&quot;);
+FCmpInst * condition2 = new FCmpInst(*originalBB, CmpInst::FCMP_TRUE , LHS, RHS, *var6);
+BranchInst::Create(originalBBpart2, alteredBB, (Value *)condition2, originalBB);
+</code></pre><p>在<code>addBogusFlow</code>函数的最后，将<code>originalBB</code>的最后一条语句分割出来，然后拼接：</p>
+<p><img src="/img/f70fd543b7c6617edf1d06ff2fbdaff3.png" alt=""></p>
+<p><code>addBogusFlow</code>和<code>bogus</code>函数执行完成后，回到<code>runOnFunction</code>，接着执行<code>doF</code>函数</p>
+<pre><code>bool doF(Module &amp;M){
+     Twine * varX = new Twine(&quot;x&quot;);
+     Twine * varY = new Twine(&quot;y&quot;);
+     Value * x1 =ConstantInt::get(Type::getInt32Ty(M.getContext()), 0, false);
+     Value * y1 =ConstantInt::get(Type::getInt32Ty(M.getContext()), 0, false);
+
+     GlobalVariable     * x = new GlobalVariable(M, Type::getInt32Ty(M.getContext()), false,
+         GlobalValue::CommonLinkage, (Constant * )x1,
+         *varX);
+     GlobalVariable     * y = new GlobalVariable(M, Type::getInt32Ty(M.getContext()), false,
+         GlobalValue::CommonLinkage, (Constant * )y1,
+         *varY);
+</code></pre><p>首先，创建了两个全局变量。</p>
+<pre><code>for(Module::iterator mi = M.begin(), me = M.end(); mi != me; ++mi){
+        for(Function::iterator fi = mi-&gt;begin(), fe = mi-&gt;end(); fi != fe; ++fi){
+
+          TerminatorInst * tbb= fi-&gt;getTerminator();
+
+          if(tbb-&gt;getOpcode() == Instruction::Br){
+
+            BranchInst * br = (BranchInst *)(tbb);
+
+            if(br-&gt;isConditional()){
+
+              FCmpInst * cond = (FCmpInst *)br-&gt;getCondition();
+              unsigned opcode = cond-&gt;getOpcode();
+
+              if(opcode == Instruction::FCmp){
+                if (cond-&gt;getPredicate() == FCmpInst::FCMP_TRUE){
+                  toDelete.push_back(cond); // The condition
+                  toEdit.push_back(tbb);    // The branch using the condition
+                }
+              }
+            }
+          }
+        }
+      }
+</code></pre><p>紧接着，遍历模块的所有基本块，搜索出条件永远为<code>true</code>的比较语句。</p>
+<pre><code>for(std::vector&lt;Instruction*&gt;::iterator i =toEdit.begin();i!=toEdit.end();++i){
+  opX = new LoadInst ((Value *)x, &quot;&quot;, (*i));
+  opY = new LoadInst ((Value *)y, &quot;&quot;, (*i));
+
+  op = BinaryOperator::Create(Instruction::Sub, (Value *)opX,
+      ConstantInt::get(Type::getInt32Ty(M.getContext()), 1,
+        false), &quot;&quot;, (*i));
+  op1 = BinaryOperator::Create(Instruction::Mul, (Value *)opX, op, &quot;&quot;, (*i));
+  op = BinaryOperator::Create(Instruction::URem, op1,
+      ConstantInt::get(Type::getInt32Ty(M.getContext()), 2,
+        false), &quot;&quot;, (*i));
+  condition = new ICmpInst((*i), ICmpInst::ICMP_EQ, op,
+      ConstantInt::get(Type::getInt32Ty(M.getContext()), 0,
+        false));
+  condition2 = new ICmpInst((*i), ICmpInst::ICMP_SLT, opY,
+      ConstantInt::get(Type::getInt32Ty(M.getContext()), 10,
+        false));
+  op1 = BinaryOperator::Create(Instruction::Or, (Value *)condition,
+      (Value *)condition2, &quot;&quot;, (*i));
+
+  BranchInst::Create(((BranchInst*)*i)-&gt;getSuccessor(0),
+      ((BranchInst*)*i)-&gt;getSuccessor(1),(Value *) op1,
+      ((BranchInst*)*i)-&gt;getParent());
+  DEBUG_WITH_TYPE(&quot;gen&quot;, errs() &lt;&lt; &quot;bcf: Erase branch instruction:&quot;
+      &lt;&lt; *((BranchInst*)*i) &lt;&lt; &quot;\n&quot;);
+  (*i)-&gt;eraseFromParent(); // erase the branch
+}
+</code></pre><p>在最后，用表达式<code>(x - 1) * x % 2 == 0 || y &lt; 0</code>替换<code>永远为true</code>的比较语句。从上面可以看出，<code>doF</code>函数将所有<code>永远为true</code>的比较语句替换为<code>(x - 1) * x % 2 == 0 || y &lt; 0</code>，并且，这个表达式的结果也<code>永远为true</code></p>
+<h3 id="指令替换"><a href="#指令替换" class="headerlink" title="指令替换"></a>指令替换</h3><pre><code>-mllvm -sub: activate instructions substitution
+-mllvm -sub_loop=3: if the pass is activated, applies it 3 times on a function. Default : 1.
+</code></pre><p>
+
+<pre><code>bool Substitution::substitute(Function *f) {
+  Function *tmp = f;
+
+  int times = ObfTimes;
+  do {
+    for (Function::iterator bb = tmp-&gt;begin(); bb != tmp-&gt;end(); ++bb) {
+      for (BasicBlock::iterator inst = bb-&gt;begin(); inst != bb-&gt;end(); ++inst) {
+
+        if (inst-&gt;isBinaryOp()) {
+
+          switch (inst-&gt;getOpcode()) {
+
+          case Instruction::Add:
+            (this-&gt;*funcAdd[llvm::cryptoutils-&gt;get_range(NUMBER_ADD_SUBST)])(
+                cast&lt;BinaryOperator&gt;(inst));
+            break;
+
+          case BinaryOperator::Sub:
+            (this-&gt;*funcSub[llvm::cryptoutils-&gt;get_range(NUMBER_SUB_SUBST)])(
+                cast&lt;BinaryOperator&gt;(inst));
+            break;
+
+          case Instruction::And:
+            (this-&gt;*funcAnd[llvm::cryptoutils-&gt;get_range(2)])(cast&lt;BinaryOperator&gt;(inst));
+            break;
+
+          case Instruction::Or:
+            (this-&gt;*funcOr[llvm::cryptoutils-&gt;get_range(2)])(cast&lt;BinaryOperator&gt;(inst));
+            break;
+
+          case Instruction::Xor:
+            (this-&gt;*funcXor[llvm::cryptoutils-&gt;get_range(2)])(cast&lt;BinaryOperator&gt;(inst));
+            break;
+          }              // End switch
+        }                // End isBinaryOp
+      }                  // End for basickblock
+    }                    // End for Function
+  } while (--times &gt; 0); // for times
+  return false;
+}
+</code></pre></p><p>从源码可以看出，ollvm只对加、减、或、与、异或这五种操作进行替换，<code>funcXXX</code>变量都是函数数组，随机的选择一种变换进行操作。<code>ObfTimes</code>关联<code>-sub_loop</code>。</p>
+<pre><code>// a = b - (-c)
+op = BinaryOperator::CreateNeg(bo-&gt;getOperand(1), &quot;&quot;, bo);
+op = BinaryOperator::Create(Instruction::Sub, bo-&gt;getOperand(0), op, &quot;&quot;, bo);
+bo-&gt;replaceAllUsesWith(op);
+
+// a = -(-b + (-c))
+op = BinaryOperator::CreateNeg(bo-&gt;getOperand(0), &quot;&quot;, bo);
+op2 = BinaryOperator::CreateNeg(bo-&gt;getOperand(1), &quot;&quot;, bo);
+op = BinaryOperator::Create(Instruction::Add, op, op2, &quot;&quot;, bo);
+op = BinaryOperator::CreateNeg(op, &quot;&quot;, bo);
+bo-&gt;replaceAllUsesWith(op);
+
+// r = rand (); a = b + r; a = a + c; a = a - r
+Type *ty = bo-&gt;getType();
+ConstantInt *co = (ConstantInt *)ConstantInt::get(ty, llvm::cryptoutils-&gt;get_uint64_t());
+op = BinaryOperator::Create(Instruction::Add, bo-&gt;getOperand(0), co, &quot;&quot;, bo);
+op = BinaryOperator::Create(Instruction::Add, op, bo-&gt;getOperand(1), &quot;&quot;, bo);
+op = BinaryOperator::Create(Instruction::Sub, op, co, &quot;&quot;, bo);
+bo-&gt;replaceAllUsesWith(op);
+
+// r = rand (); a = b - r; a = a + b; a = a + r
+Type *ty = bo-&gt;getType();
+ConstantInt *co = (ConstantInt *)ConstantInt::get(ty, llvm::cryptoutils-&gt;get_uint64_t());
+op = BinaryOperator::Create(Instruction::Sub, bo-&gt;getOperand(0), co, &quot;&quot;, bo);
+op = BinaryOperator::Create(Instruction::Add, op, bo-&gt;getOperand(1), &quot;&quot;, bo);
+op = BinaryOperator::Create(Instruction::Add, op, co, &quot;&quot;, bo);
+bo-&gt;replaceAllUsesWith(op);
+</code></pre><p>上面对应着<code>funcAdd</code>数组的四种替换方法。第一种，将第二个操作数取反，然后改写成减法指令。第二种，将两个操作数都取反，结果相加之后再次取反。第三种，取一个随机数，将随机数与操作数1相加，然后将结果与操作数2相加，最后减去随机数。第四种，取一个随机数，将操作数1减去随机数，然后将结果与操作数2相加，最后加上随机数。</p>
+<p>指令替换的过程都比较简单，也就不再介绍其他的替换方法了，具体可以参考官网：<a href="https://github.com/obfuscator-llvm/obfuscator/wiki/Instructions-Substitution" target="_blank" rel="external">Instructions Substitution</a>。</p>
+<h3 id="字符串加密"><a href="#字符串加密" class="headerlink" title="字符串加密"></a>字符串加密</h3><p>“字符串加密”这个功能不是ollvm的，而是”<a href="https://github.com/GoSSIP-SJTU/Armariris" target="_blank" rel="external">孤挺花</a>“这个项目的，不过它是基于ollvm的，所以也分析看看。</p>
+<p>与上面的pass不同，字符串加密的pass是继承<code>ModulePass</code>的，所以它的入口函数是<code>runOnModule</code>。</p>
+<pre><code>virtual bool runOnModule(Module &amp;M) {
+    std::vector&lt;GlobalVariable*&gt; toDelConstGlob;
+    std::vector&lt;encVar*&gt; encGlob;
+
+    for (Module::global_iterator gi = M.global_begin(), ge = M.global_end(); gi != ge; ++gi) {
+        GlobalVariable* gv = &amp;(*gi);
+
+        std::string::size_type str_idx = gv-&gt;getName().str().find(&quot;.str.&quot;);
+        std::string section(gv-&gt;getSection());
+
+        if (gv-&gt;isConstant() &amp;&amp; gv-&gt;hasInitializer() &amp;&amp; isa&lt;ConstantDataSequential&gt;(gv-&gt;getInitializer()) &amp;&amp;
+                section != &quot;llvm.metadata&quot; &amp;&amp; section.find(&quot;__objc_methname&quot;) == std::string::npos) {
+</code></pre><p>首先遍历模块的所有全局变量，只有这个变量为常量，并且已经初始化的，才进行下一步操作。</p>
+<pre><code>        GlobalVariable *dynGV = new GlobalVariable(M,
+                                      gv-&gt;getType()-&gt;getElementType(),
+                                      !(gv-&gt;isConstant()), gv-&gt;getLinkage(),
+                                      (Constant*) 0, gv-&gt;getName(),
+                                      (GlobalVariable*) 0,
+                                      gv-&gt;getThreadLocalMode(),
+                                      gv-&gt;getType()-&gt;getAddressSpace());
+
+        dynGV-&gt;setInitializer(gv-&gt;getInitializer());
+
+        Constant *initializer = gv-&gt;getInitializer();
+        ConstantDataSequential *cdata = dyn_cast&lt;ConstantDataSequential&gt;(initializer);
+        if (cdata) {
+            const char *orig = cdata-&gt;getRawDataValues().data();
+            unsigned int len = cdata-&gt;getNumElements()*cdata-&gt;getElementByteSize();
+
+            encVar *cur = new encVar();
+            cur-&gt;var = dynGV;
+            cur-&gt;key = llvm::cryptoutils-&gt;get_uint8_t();
+
+            char *encr = (char*)orig; 
+
+            for (unsigned i = 0; i != len; ++i) {
+                    encr[i] = orig[i]^cur-&gt;key;
+            }
+
+            dynGV-&gt;setInitializer(initializer);
+
+            encGlob.push_back(cur);
+        } else {
+            dynGV-&gt;setInitializer(initializer);
+        }
+        gv-&gt;replaceAllUsesWith(dynGV);
+        toDelConstGlob.push_back(gv);
+
+    }
+}
+</code></pre><p>然后，创建一个全局变量，并且取得一个随机数，将随机数作为key与原先原先全局变量的值进行异或，最后，将结果设为新全局变量的值。</p>
+<pre><code>for (unsigned i = 0, e = toDelConstGlob.size(); i != e; ++i)
+        toDelConstGlob[i]-&gt;eraseFromParent();
+
+addDecodeFunction(&amp;M, &amp;encGlob);
+
+return true;
+</code></pre><p>在这个函数的末尾，删除原先的全局变量，然后调用<code>addDecodeFunction</code>函数，增加一个解密函数。</p>
+<pre><code>void addDecodeFunction(Module *mod, std::vector&lt;encVar*&gt; *gvars) {
+
+    std::vector&lt;Type*&gt;FuncTy_args;
+    FunctionType* FuncTy = FunctionType::get(
+      Type::getVoidTy(mod-&gt;getContext()),  // returning void
+      FuncTy_args,  // taking no args
+      false);
+
+    uint64_t StringObfDecodeRandomName = cryptoutils-&gt;get_uint64_t();
+    std::string  random_str;
+    std::strstream random_stream;
+    random_stream &lt;&lt; StringObfDecodeRandomName;
+    random_stream &gt;&gt; random_str;
+    StringObfDecodeRandomName++;
+    Constant* c = mod-&gt;getOrInsertFunction(&quot;.datadiv_decode&quot; + random_str, FuncTy);
+    Function* fdecode = cast&lt;Function&gt;(c);
+    fdecode-&gt;setCallingConv(CallingConv::C);
+
+    ConstantInt* const_0 = ConstantInt::get(mod-&gt;getContext(), APInt(32, 0));
+    ConstantInt* const_1 = ConstantInt::get(mod-&gt;getContext(), APInt(32, 1));
+    BasicBlock* label_entry = BasicBlock::Create(mod-&gt;getContext(), &quot;entry&quot;, fdecode);
+</code></pre><p>开始，创建一个函数声明: <code>void .datadiv_decodexxx()</code>，生成了两个常量和一个基本块，这个基本块作为函数的头</p>
+<pre><code>for (unsigned i = 0, e = gvars-&gt;size(); i != e; ++i) {
+   GlobalVariable *gvar = (*gvars)[i]-&gt;var;
+   char key = (*gvars)[i]-&gt;key;
+
+   Constant *init = gvar-&gt;getInitializer();
+   ConstantDataSequential *cdata = dyn_cast&lt;ConstantDataSequential&gt;(init);
+
+   unsigned len = cdata-&gt;getNumElements()*cdata-&gt;getElementByteSize();
+
+   ConstantInt* const_len = ConstantInt::get(mod-&gt;getContext(), APInt(32, len));
+   BasicBlock* label_for_body = BasicBlock::Create(mod-&gt;getContext(), &quot;for.body&quot;, fdecode, 0);
+     BasicBlock* label_for_end = BasicBlock::Create(mod-&gt;getContext(), &quot;for.end&quot;, fdecode, 0);
+</code></pre><p>在循环里面，创建了两个基本块，分别作为解密循环的body和end，并且计算出了当前key的长度</p>
+<pre><code>ICmpInst* cmp = new ICmpInst(*label_entry, ICmpInst::ICMP_EQ, const_len, const_0, &quot;cmp&quot;);
+BranchInst::Create(label_for_end, label_for_body, cmp, label_entry);
+</code></pre><p>在这里，插入了第一条比较指令，条件表达式是：<code>key的长度 == 0</code>，如果为0则跳出循环，否则开始执行循环</p>
+<pre><code>Argument* fwdref_18 = new Argument(IntegerType::get(mod-&gt;getContext(), 32));
+PHINode* int32_i = PHINode::Create(IntegerType::get(mod-&gt;getContext(), 32), 2, &quot;i.09&quot;, label_for_body);
+int32_i-&gt;addIncoming(fwdref_18, label_for_body);
+int32_i-&gt;addIncoming(const_0, label_entry);
+</code></pre><p>在解密循环的body里面，创建了一个PHI结点，数据源分别是0和解密循环自增变量</p>
+<pre><code>std::vector&lt;Value*&gt; ptr_32_indices;
+ptr_32_indices.push_back(const_0);
+ptr_32_indices.push_back(int64_idxprom);
+
+ArrayRef&lt;Value*&gt; ref_ptr_32_indices = ArrayRef&lt;Value*&gt;(ptr_32_indices);
+Instruction* ptr_arrayidx = GetElementPtrInst::Create(NULL, gvar, ref_ptr_32_indices, &quot;arrayidx&quot;, label_for_body);
+LoadInst* int8_20 = new LoadInst(ptr_arrayidx, &quot;&quot;, false, label_for_body);
+int8_20-&gt;setAlignment(1);
+</code></pre><p>这里生成的指令作用是：使用解密循环自增变量作为数组索引，从加密后的字符串里面读取一个字节</p>
+<pre><code>ConstantInt* const_key = ConstantInt::get(mod-&gt;getContext(), APInt(8, key));
+BinaryOperator* int8_dec = BinaryOperator::Create(Instruction::Xor, int8_20, const_key, &quot;xor&quot;, label_for_body);
+StoreInst* void_21 = new StoreInst(int8_dec, ptr_arrayidx, false, label_for_body);
+void_21-&gt;setAlignment(1);
+</code></pre><p>生成一条异或指令，将key和数据进行异或，得到原数据，最后将它写回。</p>
+<pre><code>        BinaryOperator* int32_inc = BinaryOperator::Create(Instruction::Add, int32_i, const_1, &quot;inc&quot;, label_for_body);
+
+        ICmpInst* int1_cmp = new ICmpInst(*label_for_body, ICmpInst::ICMP_EQ, int32_inc, const_len, &quot;cmp&quot;);
+        BranchInst::Create(label_for_end, label_for_body, int1_cmp, label_for_body);
+
+        fwdref_18-&gt;replaceAllUsesWith(int32_inc); delete fwdref_18;
+
+        label_entry = label_for_end;
+    }
+ReturnInst::Create(mod-&gt;getContext(), label_entry);
+</code></pre><p>在最后，将解密循环自增变量自增，并且创建比较指令，当解密没完成时回到循环体继续解密。在接下来的代码，主要是获取llvm的全局变量<code>llvm.global_ctors</code>，然后将这个解密函数插入<code>global_ctors</code>，达到在运行时解密的功能。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-02-27T15:32:47.544Z" itemprop="dateUpdated">2018-02-27 23:32:47</time>
+</span><br>
+
+
+        
+        本文章仅供学习交流，请勿用于其他用途。如果侵犯了您的权力，请与本人联系。</br>转载请注明出处：<a href="/2018/02/26/post/" target="_blank" rel="external">http://www.ench4nt3r.com/2018/02/26/post/</a>
+        
+    </div>
+    <footer>
+        <a href="http://www.ench4nt3r.com">
+            <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" alt="ench4nt3r">
+            ench4nt3r
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ollvm/">ollvm</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2018/02/26/post/&title=《ollvm源码分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2018/02/26/post/&title=《ollvm源码分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2018/02/26/post/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ollvm源码分析》 — 我的世界&url=http://www.ench4nt3r.com/2018/02/26/post/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2018/02/26/post/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/04/13/post/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">在JNI中打印调用栈</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/02/10/post/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数字加固分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=2138344"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2018/02/26/post/&title=《ollvm源码分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2018/02/26/post/&title=《ollvm源码分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2018/02/26/post/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ollvm源码分析》 — 我的世界&url=http://www.ench4nt3r.com/2018/02/26/post/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2018/02/26/post/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABw0lEQVR42u3aS47CMBAFQO5/6cx2pFGs92zHwKi8QpA4RRat/vj1itf1Z939+vubZM/XEwsXF3eZew3XmHt3zfgp43vHrwYXF/ckdxxocvr4+zbw4eLifgs3SVCSP4OLi/ufuHPJUPs6cHFxP4HbBpqEdQXrwVoNFxd3gZt3KZ/7/Eh/FxcXd4p7lSu5N2+k1k/HxcU9wm0HorsiZb4bLi7ueW7b9GxHI0WzIymrcHFxD3L3jlLm2qxR8oSLi3ucO1fGrIxb2gEtLi7uSe7c6HRu4NGGttviBxcX9zFuXlPkDdA2oamPZeDi4j7MbcubPMVJKG0AxcXFPcndNV6dO9SVtEpxcXFPcjeMN4Lkpk2DopEMLi7uQW4+Om0HIeuDGVxc3JPcBNQesNh1LOO2YYqLi3uQuz5YbcuYtvmCi4v7Lm5eAs2FtrapWm+Bi4u7wL3K1SYxbeN18m3h4uJu5eZrbryalzpzO+Di4j7HbVucK1e24xlcXNz3cttAk49D5gqtegtcXNwP4Obl0zjdadMmXFzcz+Tmj5w8CTK+EhcX9yA3D0PtsYykNCpeEC4u7hFuG0ryAxMrydOG/i4uLu4M9wfG7rlouHPb4AAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

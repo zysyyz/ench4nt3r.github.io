@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>在JNI中打印调用栈 | 我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android">
+    <meta name="description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在JNI中打印调用栈">
+<meta property="og:url" content="http://www.ench4nt3r.com/2018/04/13/post/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-13T14:03:07.957Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在JNI中打印调用栈">
+<meta name="twitter:description" content="在网上搜索的Android打印调用栈，实现方式有以下三种：  使用CallStack类 使用_Unwind_Backtrace函数 自己编译 libunwind  第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 utils/CallStack.h 这个头文件，所以得自己使用 dlsym 取得函数地址再调用，但是Call">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">在JNI中打印调用栈</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">在JNI中打印调用栈</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-04-13T13:56:30.000Z" itemprop="datePublished" class="page-time">
+  2018-04-13
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-post"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">在JNI中打印调用栈</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-04-13 21:56:30" datetime="2018-04-13T13:56:30.000Z"  itemprop="datePublished">2018-04-13</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>在网上搜索的Android打印调用栈，实现方式有以下三种：</p>
+<ol>
+<li>使用<code>CallStack</code>类</li>
+<li>使用<code>_Unwind_Backtrace</code>函数</li>
+<li>自己编译 libunwind</li>
+</ol>
+<p>第一种方法，在我的环境中（Android 5.1），可以在 libutils.so 找到导出的函数，可是并不能在 NDK中找到 <code>utils/CallStack.h</code> 这个头文件，所以得自己使用 <code>dlsym</code> 取得函数地址再调用，但是<code>CallStack</code>是一个 c++ 类，要调用比较麻烦，所以放弃这种方法。</p>
+<p>第二种方法，这个就比较好了，能找到头文件，也能够成功编译，但是编译器将 <code>libgcc.a</code> 中的 <code>_Unwind_Backtrace</code> 函数跟我的动态库链接，这个实现似乎跟 Android 水土不服，获取的调用栈数量极少。</p>
+<p>第三种，一看就很麻烦，放弃了。</p>
+<p>本来呢，在第二种方法中，我希望的是使用 libunwind 的<code>_Unwind_Backtrace</code> 函数，然而看 libunwind 时发现，它并没有导出这个函数。不过意外的发现了 <code>unw_backtrace</code> 函数，从源码也能看出它具有跟 <code>_Unwind_Backtrace</code> 相同的功能，使用它的效果也是极好的，下面源码奉上：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*Unw_BackTrace_Func)</span><span class="params">(<span class="keyword">void</span>**, <span class="keyword">int</span>)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_backtrace</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> Unw_BackTrace_Func unw_backtrace = <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">if</span> (!unw_backtrace) &#123;</div><div class="line">        <span class="keyword">void</span> *hanle = dlopen(<span class="string">"libunwind.so"</span>, RTLD_NOW);</div><div class="line">        unw_backtrace = (Unw_BackTrace_Func)dlsym(hanle, <span class="string">"unw_backtrace"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">void</span> *buffer[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</div><div class="line">    <span class="keyword">int</span> n = unw_backtrace((<span class="keyword">void</span>**)&amp;buffer, <span class="number">32</span>);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</div><div class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *file = <span class="string">"\t\t\t\t"</span>;</div><div class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *symbol = <span class="string">"\t\t\t\t"</span>;</div><div class="line">        Dl_info info;</div><div class="line">        <span class="keyword">if</span> (dladdr(buffer[i], &amp;info)) &#123;</div><div class="line">            <span class="keyword">if</span> (info.dli_sname) &#123;</div><div class="line">                symbol = info.dli_sname;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (info.dli_fname) &#123;</div><div class="line">                file = info.dli_fname;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        LOGI(<span class="string">"#%02d: %p \t %s \t %s"</span>, i, buffer[i], symbol, file);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一些参考：</p>
+<p><a href="https://my.oschina.net/bugly/blog/1354954" target="_blank" rel="external">Android 平台 Native 代码的崩溃捕获机制及实现</a></p>
+<p><a href="https://blog.csdn.net/xxooyc/article/details/51001345" target="_blank" rel="external">JNI中如何打印Call Stack</a></p>
+<p><a href="https://blog.csdn.net/freshui/article/details/9456889" target="_blank" rel="external">Android下打印调试堆栈方法</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-04-13T14:03:07.957Z" itemprop="dateUpdated">2018-04-13 22:03:07</time>
+</span><br>
+
+
+        
+        本文章仅供学习交流，请勿用于其他用途。如果侵犯了您的权力，请与本人联系。</br>转载请注明出处：<a href="/2018/04/13/post/" target="_blank" rel="external">http://www.ench4nt3r.com/2018/04/13/post/</a>
+        
+    </div>
+    <footer>
+        <a href="http://www.ench4nt3r.com">
+            <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" alt="ench4nt3r">
+            ench4nt3r
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2018/04/13/post/&title=《在JNI中打印调用栈》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2018/04/13/post/&title=《在JNI中打印调用栈》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2018/04/13/post/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《在JNI中打印调用栈》 — 我的世界&url=http://www.ench4nt3r.com/2018/04/13/post/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2018/04/13/post/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/02/26/post/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ollvm源码分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=2138344"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2018/04/13/post/&title=《在JNI中打印调用栈》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2018/04/13/post/&title=《在JNI中打印调用栈》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2018/04/13/post/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《在JNI中打印调用栈》 — 我的世界&url=http://www.ench4nt3r.com/2018/04/13/post/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2018/04/13/post/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABw0lEQVR42u3aS27DMAwFwNz/0inQVTdWHkWZcYHxyshHGWfxIJF8veLr/Xv9vU9eydc8fOHi4ra57+V1tfT6lfX9+oGvPoOLizvPrYZXP/KS4MPFxX0+dx1/V++uowoXF/e/c/M4yzc0uLi4T+YmQZOE19mYw8XF/RZ3r2B69v72+i4uLu6hrkS+QdnbuJR/HRcXd4Sbt0mS6KmWSjfbtLi4uIPcvCRababuPXZ0VsPFxb2Bm1P2Ch/5gSdaDRcXd5Cbt1HzsmY+mFWIQlxc3C9xkyJmp9Wx1565DDJcXNwbuHnj845xqyodFxd3hlstX+as/DOFhisuLu4gt9oEzQ9L+cNEK+Di4o5w8zJovvTZx8bFxZ3nVlune43VZKvUaqXg4uIe5VYjqXBQiQsryYgYLi7uJPeOAmh+sMk3QLi4uPPc6kDVqeJIOQpxcXEHuf0DSX68aY1x4OLijnA7A1V54WOvydoKQVxc3Da32vCoxlb+3Wh4FBcXd5CbhFdOqc5WbWYqLi7uA7itokbxaHT5u7i4uI/kJoWMTnnlw9+Ei4s7yC00O4NyZ/XwU2jY4OLijnA7BdO9hmt11AMXF3eQ+wNr49NqSWh4FgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>elf.h in IDA | 我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="IDA,elf头文件">
+    <meta name="description" content="可以直接在IDA导入的elf头文件">
+<meta name="keywords" content="IDA,elf头文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elf.h in IDA">
+<meta property="og:url" content="http://www.ench4nt3r.com/2017/07/09/elf-in-ida/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:description" content="可以直接在IDA导入的elf头文件">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-09T06:54:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elf.h in IDA">
+<meta name="twitter:description" content="可以直接在IDA导入的elf头文件">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">elf.h in IDA</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">elf.h in IDA</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-07-09T06:51:15.000Z" itemprop="datePublished" class="page-time">
+  2017-07-09
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-elf-in-ida"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">elf.h in IDA</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-07-09 14:51:15" datetime="2017-07-09T06:51:15.000Z"  itemprop="datePublished">2017-07-09</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>可以直接在IDA导入的elf头文件<br><a id="more"></a></p>
+<p>elf.h</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/****************************************************************************</span></div><div class="line"> ****************************************************************************</div><div class="line"> ***</div><div class="line"> ***   This header was automatically generated from a Linux kernel header</div><div class="line"> ***   of the same name, to make information necessary for userspace to</div><div class="line"> ***   call into the kernel available to libc.  It contains only constants,</div><div class="line"> ***   structures, and macros generated from the original header, and thus,</div><div class="line"> ***   contains no copyrightable information.</div><div class="line"> ***</div><div class="line"> ***   To edit the content of this header, modify the corresponding</div><div class="line"> ***   source file (e.g. under external/kernel-headers/original/) then</div><div class="line"> ***   run bionic/libc/kernel/tools/update_all.py</div><div class="line"> ***</div><div class="line"> ***   Any manual change here will be lost the next time this script will</div><div class="line"> ***   be run. You've been warned!</div><div class="line"> ***</div><div class="line"> ****************************************************************************</div><div class="line"> ****************************************************************************/</div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _UAPI_LINUX_ELF_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _UAPI_LINUX_ELF_H</span></div><div class="line"><span class="comment">// #include &lt;linux/types.h&gt;</span></div><div class="line"><span class="comment">// #include &lt;linux/elf-em.h&gt;</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __signed__ signed </span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> __u64;</div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> __u32;</div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">short</span> __u16;</div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> __u64;</div><div class="line"><span class="keyword">typedef</span> __signed__ <span class="keyword">long</span> __u64;</div><div class="line"><span class="keyword">typedef</span> __signed__ <span class="keyword">int</span> __s32;</div><div class="line"><span class="keyword">typedef</span> __signed__ <span class="keyword">short</span> __s16; </div><div class="line"></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="keyword">typedef</span> __u32 Elf32_Addr;</div><div class="line"><span class="keyword">typedef</span> __u16 Elf32_Half;</div><div class="line"><span class="keyword">typedef</span> __u32 Elf32_Off;</div><div class="line"><span class="keyword">typedef</span> __s32 Elf32_Sword;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="keyword">typedef</span> __u32 Elf32_Word;</div><div class="line"><span class="keyword">typedef</span> __u64 Elf64_Addr;</div><div class="line"><span class="keyword">typedef</span> __u16 Elf64_Half;</div><div class="line"><span class="keyword">typedef</span> __s16 Elf64_SHalf;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="keyword">typedef</span> __u64 Elf64_Off;</div><div class="line"><span class="keyword">typedef</span> __s32 Elf64_Sword;</div><div class="line"><span class="keyword">typedef</span> __u32 Elf64_Word;</div><div class="line"><span class="keyword">typedef</span> __u64 Elf64_Xword;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="keyword">typedef</span> __s64 Elf64_Sxword;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_NULL 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_LOAD 1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_DYNAMIC 2</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_INTERP 3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_NOTE 4</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_SHLIB 5</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_PHDR 6</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_TLS 7</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_LOOS 0x60000000</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_HIOS 0x6fffffff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_LOPROC 0x70000000</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_HIPROC 0x7fffffff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_GNU_EH_FRAME 0x6474e550</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PT_GNU_STACK (PT_LOOS + 0x474e551)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PN_XNUM 0xffff</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ET_NONE 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ET_REL 1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ET_EXEC 2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ET_DYN 3</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ET_CORE 4</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ET_LOPROC 0xff00</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ET_HIPROC 0xffff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_NULL 0</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_NEEDED 1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_PLTRELSZ 2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_PLTGOT 3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_HASH 4</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_STRTAB 5</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_SYMTAB 6</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_RELA 7</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_RELASZ 8</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_RELAENT 9</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_STRSZ 10</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_SYMENT 11</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_INIT 12</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_FINI 13</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_SONAME 14</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_RPATH 15</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_SYMBOLIC 16</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_REL 17</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_RELSZ 18</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_RELENT 19</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_PLTREL 20</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_DEBUG 21</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_TEXTREL 22</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_JMPREL 23</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_ENCODING 32</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OLD_DT_LOOS 0x60000000</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_LOOS 0x6000000d</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_HIOS 0x6ffff000</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_VALRNGLO 0x6ffffd00</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_VALRNGHI 0x6ffffdff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_ADDRRNGLO 0x6ffffe00</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_ADDRRNGHI 0x6ffffeff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_VERSYM 0x6ffffff0</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_RELACOUNT 0x6ffffff9</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_RELCOUNT 0x6ffffffa</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_FLAGS_1 0x6ffffffb</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_VERDEF 0x6ffffffc</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_VERDEFNUM 0x6ffffffd</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_VERNEED 0x6ffffffe</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_VERNEEDNUM 0x6fffffff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OLD_DT_HIOS 0x6fffffff</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_LOPROC 0x70000000</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DT_HIPROC 0x7fffffff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STB_LOCAL 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STB_GLOBAL 1</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STB_WEAK 2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STT_NOTYPE 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STT_OBJECT 1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STT_FUNC 2</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STT_SECTION 3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STT_FILE 4</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STT_COMMON 5</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STT_TLS 6</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF_ST_BIND(x) ((x) &gt;&gt; 4)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF_ST_TYPE(x) (((unsigned int) x) &amp; 0xf)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF32_ST_BIND(x) ELF_ST_BIND(x)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF32_ST_TYPE(x) ELF_ST_TYPE(x)</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF64_ST_BIND(x) ELF_ST_BIND(x)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF64_ST_TYPE(x) ELF_ST_TYPE(x)</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dynamic</span>&#123;</span></div><div class="line"> Elf32_Sword d_tag;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> <span class="keyword">union</span>&#123;</div><div class="line"> Elf32_Sword d_val;</div><div class="line"> Elf32_Addr d_ptr;</div><div class="line"> &#125; d_un;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line">&#125; Elf32_Dyn;</div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></div><div class="line"> Elf64_Sxword d_tag;</div><div class="line"> <span class="keyword">union</span> &#123;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Xword d_val;</div><div class="line"> Elf64_Addr d_ptr;</div><div class="line"> &#125; d_un;</div><div class="line">&#125; Elf64_Dyn;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF32_R_SYM(x) ((x) &gt;&gt; 8)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF32_R_TYPE(x) ((x) &amp; 0xff)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF64_R_SYM(i) ((i) &gt;&gt; 32)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF64_R_TYPE(i) ((i) &amp; 0xffffffff)</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf32_rel</span> &#123;</span></div><div class="line"> Elf32_Addr r_offset;</div><div class="line"> Elf32_Word r_info;</div><div class="line">&#125; Elf32_Rel;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf64_rel</span> &#123;</span></div><div class="line"> Elf64_Addr r_offset;</div><div class="line"> Elf64_Xword r_info;</div><div class="line">&#125; Elf64_Rel;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf32_rela</span>&#123;</span></div><div class="line"> Elf32_Addr r_offset;</div><div class="line"> Elf32_Word r_info;</div><div class="line"> Elf32_Sword r_addend;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line">&#125; Elf32_Rela;</div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf64_rela</span> &#123;</span></div><div class="line"> Elf64_Addr r_offset;</div><div class="line"> Elf64_Xword r_info;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Sxword r_addend;</div><div class="line">&#125; Elf64_Rela;</div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf32_sym</span>&#123;</span></div><div class="line"> Elf32_Word st_name;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Addr st_value;</div><div class="line"> Elf32_Word st_size;</div><div class="line"> <span class="keyword">unsigned</span> <span class="keyword">char</span> st_info;</div><div class="line"> <span class="keyword">unsigned</span> <span class="keyword">char</span> st_other;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Half st_shndx;</div><div class="line">&#125; Elf32_Sym;</div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf64_sym</span> &#123;</span></div><div class="line"> Elf64_Word st_name;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> <span class="keyword">unsigned</span> <span class="keyword">char</span> st_info;</div><div class="line"> <span class="keyword">unsigned</span> <span class="keyword">char</span> st_other;</div><div class="line"> Elf64_Half st_shndx;</div><div class="line"> Elf64_Addr st_value;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Xword st_size;</div><div class="line">&#125; Elf64_Sym;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_NIDENT 16</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf32_hdr</span>&#123;</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> <span class="keyword">unsigned</span> <span class="keyword">char</span> e_ident[EI_NIDENT];</div><div class="line"> Elf32_Half e_type;</div><div class="line"> Elf32_Half e_machine;</div><div class="line"> Elf32_Word e_version;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Addr e_entry;</div><div class="line"> Elf32_Off e_phoff;</div><div class="line"> Elf32_Off e_shoff;</div><div class="line"> Elf32_Word e_flags;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Half e_ehsize;</div><div class="line"> Elf32_Half e_phentsize;</div><div class="line"> Elf32_Half e_phnum;</div><div class="line"> Elf32_Half e_shentsize;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Half e_shnum;</div><div class="line"> Elf32_Half e_shstrndx;</div><div class="line">&#125; Elf32_Ehdr;</div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf64_hdr</span> &#123;</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> <span class="keyword">unsigned</span> <span class="keyword">char</span> e_ident[EI_NIDENT];</div><div class="line"> Elf64_Half e_type;</div><div class="line"> Elf64_Half e_machine;</div><div class="line"> Elf64_Word e_version;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Addr e_entry;</div><div class="line"> Elf64_Off e_phoff;</div><div class="line"> Elf64_Off e_shoff;</div><div class="line"> Elf64_Word e_flags;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Half e_ehsize;</div><div class="line"> Elf64_Half e_phentsize;</div><div class="line"> Elf64_Half e_phnum;</div><div class="line"> Elf64_Half e_shentsize;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Half e_shnum;</div><div class="line"> Elf64_Half e_shstrndx;</div><div class="line">&#125; Elf64_Ehdr;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PF_R 0x4</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PF_W 0x2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PF_X 0x1</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf32_phdr</span>&#123;</span></div><div class="line"> Elf32_Word p_type;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Off p_offset;</div><div class="line"> Elf32_Addr p_vaddr;</div><div class="line"> Elf32_Addr p_paddr;</div><div class="line"> Elf32_Word p_filesz;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Word p_memsz;</div><div class="line"> Elf32_Word p_flags;</div><div class="line"> Elf32_Word p_align;</div><div class="line">&#125; Elf32_Phdr;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf64_phdr</span> &#123;</span></div><div class="line"> Elf64_Word p_type;</div><div class="line"> Elf64_Word p_flags;</div><div class="line"> Elf64_Off p_offset;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Addr p_vaddr;</div><div class="line"> Elf64_Addr p_paddr;</div><div class="line"> Elf64_Xword p_filesz;</div><div class="line"> Elf64_Xword p_memsz;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Xword p_align;</div><div class="line">&#125; Elf64_Phdr;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_NULL 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_PROGBITS 1</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_SYMTAB 2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_STRTAB 3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_RELA 4</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_HASH 5</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_DYNAMIC 6</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_NOTE 7</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_NOBITS 8</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_REL 9</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_SHLIB 10</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_DYNSYM 11</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_NUM 12</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_LOPROC 0x70000000</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_HIPROC 0x7fffffff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_LOUSER 0x80000000</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHT_HIUSER 0xffffffff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHF_WRITE 0x1</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHF_ALLOC 0x2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHF_EXECINSTR 0x4</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHF_MASKPROC 0xf0000000</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHN_UNDEF 0</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHN_LORESERVE 0xff00</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHN_LOPROC 0xff00</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHN_HIPROC 0xff1f</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHN_ABS 0xfff1</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHN_COMMON 0xfff2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHN_HIRESERVE 0xffff</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf32_shdr</span> &#123;</span></div><div class="line"> Elf32_Word sh_name;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Word sh_type;</div><div class="line"> Elf32_Word sh_flags;</div><div class="line"> Elf32_Addr sh_addr;</div><div class="line"> Elf32_Off sh_offset;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Word sh_size;</div><div class="line"> Elf32_Word sh_link;</div><div class="line"> Elf32_Word sh_info;</div><div class="line"> Elf32_Word sh_addralign;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Word sh_entsize;</div><div class="line">&#125; Elf32_Shdr;</div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf64_shdr</span> &#123;</span></div><div class="line"> Elf64_Word sh_name;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Word sh_type;</div><div class="line"> Elf64_Xword sh_flags;</div><div class="line"> Elf64_Addr sh_addr;</div><div class="line"> Elf64_Off sh_offset;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Xword sh_size;</div><div class="line"> Elf64_Word sh_link;</div><div class="line"> Elf64_Word sh_info;</div><div class="line"> Elf64_Xword sh_addralign;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Xword sh_entsize;</div><div class="line">&#125; Elf64_Shdr;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_MAG0 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_MAG1 1</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_MAG2 2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_MAG3 3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_CLASS 4</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_DATA 5</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_VERSION 6</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_OSABI 7</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EI_PAD 8</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFMAG0 0x7f</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFMAG1 <span class="meta-string">'E'</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFMAG2 <span class="meta-string">'L'</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFMAG3 <span class="meta-string">'F'</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFMAG <span class="meta-string">"\177ELF"</span></span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SELFMAG 4</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFCLASSNONE 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFCLASS32 1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFCLASS64 2</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFCLASSNUM 3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFDATANONE 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFDATA2LSB 1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFDATA2MSB 2</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EV_NONE 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EV_CURRENT 1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EV_NUM 2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFOSABI_NONE 0</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELFOSABI_LINUX 3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ELF_OSABI</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ELF_OSABI ELFOSABI_NONE</span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_PRSTATUS 1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_PRFPREG 2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_PRPSINFO 3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_TASKSTRUCT 4</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_AUXV 6</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_SIGINFO 0x53494749</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_FILE 0x46494c45</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_PRXFPREG 0x46e62b7f</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_PPC_VMX 0x100</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_PPC_SPE 0x101</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_PPC_VSX 0x102</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_386_TLS 0x200</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_386_IOPERM 0x201</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_X86_XSTATE 0x202</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_HIGH_GPRS 0x300</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_TIMER 0x301</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_TODCMP 0x302</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_TODPREG 0x303</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_CTRS 0x304</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_PREFIX 0x305</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_LAST_BREAK 0x306</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_SYSTEM_CALL 0x307</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_S390_TDB 0x308</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_ARM_VFP 0x400</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_ARM_TLS 0x401</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_ARM_HW_BREAK 0x402</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_ARM_HW_WATCH 0x403</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_METAG_CBUF 0x500</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_METAG_RPIPE 0x501</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NT_METAG_TLS 0x502</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf32_note</span> &#123;</span></div><div class="line"> Elf32_Word n_namesz;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf32_Word n_descsz;</div><div class="line"> Elf32_Word n_type;</div><div class="line">&#125; Elf32_Nhdr;</div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf64_note</span> &#123;</span></div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"> Elf64_Word n_namesz;</div><div class="line"> Elf64_Word n_descsz;</div><div class="line"> Elf64_Word n_type;</div><div class="line">&#125; Elf64_Nhdr;</div><div class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-07-09T06:54:58.000Z" itemprop="dateUpdated">2017-07-09 14:54:58</time>
+</span><br>
+
+
+        
+        本文章仅供学习交流，请勿用于其他用途。如果侵犯了您的权力，请与本人联系。</br>转载请注明出处：<a href="/2017/07/09/elf-in-ida/" target="_blank" rel="external">http://www.ench4nt3r.com/2017/07/09/elf-in-ida/</a>
+        
+    </div>
+    <footer>
+        <a href="http://www.ench4nt3r.com">
+            <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" alt="ench4nt3r">
+            ench4nt3r
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IDA/">IDA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elf头文件/">elf头文件</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/&title=《elf.h in IDA》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/&title=《elf.h in IDA》 — 我的世界&source=可以直接在IDA导入的elf头文件" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《elf.h in IDA》 — 我的世界&url=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/09/10/legu-reverse/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">乐固（libshella 2.10.5.7）加固分析</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/12/17/winafl-analysis/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">浅谈Winafl</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=2138344"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/&title=《elf.h in IDA》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/&title=《elf.h in IDA》 — 我的世界&source=可以直接在IDA导入的elf头文件" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《elf.h in IDA》 — 我的世界&url=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2017/07/09/elf-in-ida/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACL0lEQVR42u3aO5IDIQxFUe9/00yV42l8n6ADxCVy2V0DpwMN+nw+eI3vevqe/zoeFvlrG5YMGTKOZYzp4ts/sedI8nm+uwwZMu5hkG1qgTUN6OkrkCFDhgweUgmVhFEZMmTI2MUgl0ueys6flCFDhow08JGEk4Tp9BVsy8VlyJBxIGNXkvnG5xf7GzJkyDiEMcJFQmdabkuT239OJUOGjNYMklLWEtd0LKMWXX8cSIYMGY0Y5Ii8cFZrJ6QvFGFkyJDRgrFhxAF8v3JlRFQZMmRcwEgjdC3I8lfG90IbyJAhowUjLZalvxIGD+Xx/w0ZMmQ0YtQalvO2Qa0xkKa7MmTI6M0gB0qDZjooRniELUOGjNsYQalroYhWa1gGwxYyZMhowVhpIs6PRYpo6ZOPv8qQIaM1gx+odqw0NJOg/+P6KEOGjHYM8uiu4lotxY2vhjJkyGjKSAcd4mEIUDIjrUo0bCFDhozWjJULHNm+lgCj4C5DhozWDD6GVUtWeSjnQRk1RGXIkNGIsdKkTMPoG6U6GTJk3MbgFzV+dUuHKtJ/AMFtVIYMGccy0rUyEFZ7vpYey5AhoxNjhKtW3CffpJm3DBky7mGkwY6no+tt0b1XTxkyZJzOqA1V8NZm2p1IW6QyZMi4h5EGU77BSpuBh34ZMmTIIGG0VtVbH9qQIUOGDFLe4oMX5EXUwDJkyLiBUUti00teelx+QhkyZPRmrDcGahgeWDd0NmTIkHEq4w+fsfUbFl/AUAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

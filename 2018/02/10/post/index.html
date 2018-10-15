@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>数字加固分析 | 我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android加固">
+    <meta name="description" content="Dex解密加密后的Dex数据被放在壳classes.dex的末尾。格式如下： struct info {     byte unknow[4];     int  file_len; // 不包含头8个字节     int  unknow_data_len;     byte *unknow_data;     int  dex_number; // 下面数组的数量      struct {">
+<meta name="keywords" content="Android加固">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字加固分析">
+<meta property="og:url" content="http://www.ench4nt3r.com/2018/02/10/post/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:description" content="Dex解密加密后的Dex数据被放在壳classes.dex的末尾。格式如下： struct info {     byte unknow[4];     int  file_len; // 不包含头8个字节     int  unknow_data_len;     byte *unknow_data;     int  dex_number; // 下面数组的数量      struct {">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-02-13T10:35:27.087Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数字加固分析">
+<meta name="twitter:description" content="Dex解密加密后的Dex数据被放在壳classes.dex的末尾。格式如下： struct info {     byte unknow[4];     int  file_len; // 不包含头8个字节     int  unknow_data_len;     byte *unknow_data;     int  dex_number; // 下面数组的数量      struct {">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数字加固分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数字加固分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-02-10T03:37:05.000Z" itemprop="datePublished" class="page-time">
+  2018-02-10
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Dex解密"><span class="post-toc-number">1.</span> <span class="post-toc-text">Dex解密</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#第一步解密："><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">第一步解密：</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#第二步解密"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">第二步解密</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#指令还原"><span class="post-toc-number">2.</span> <span class="post-toc-text">指令还原</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考"><span class="post-toc-number">3.</span> <span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-post"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数字加固分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-02-10 11:37:05" datetime="2018-02-10T03:37:05.000Z"  itemprop="datePublished">2018-02-10</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="Dex解密"><a href="#Dex解密" class="headerlink" title="Dex解密"></a>Dex解密</h3><p>加密后的Dex数据被放在壳<code>classes.dex</code>的末尾。格式如下：</p>
+<pre><code>struct info {
+    byte unknow[4];
+    int  file_len; // 不包含头8个字节
+    int  unknow_data_len;
+    byte *unknow_data;
+    int  dex_number; // 下面数组的数量
+
+    struct {
+        int full_size; // data_size + 4
+        int data_size;
+        byte *data;
+    } dex[1];    
+};
+</code></pre><p>解密dex需要两步，第一步是将数据解密，得到一个用lzma压缩的数据，解压后，得到一个加密后的dex数据。第二步就是将加密的dex数据解密。两步解密都各需要一个key。key的计算跟<code>info.unknow_data</code>有关，模拟函数<code>sub_E153C828（该函数在libjiagu.so释放的另外一个so内，下面的函数凡是以sub_E15开头的，都是在释放的so内）</code>执行得到两个key。</p>
+<pre><code>sub_E153C828(info.unknow_data, info.unknow_data_len, &amp;key1, &amp;key2);
+</code></pre><h5 id="第一步解密："><a href="#第一步解密：" class="headerlink" title="第一步解密："></a>第一步解密：</h5><p>key1需要再次计算：</p>
+<pre><code>// sub_E159CE08(&amp;key3, &amp;key1, 16)
+  int sub_E159CE08(_BYTE *a1, int a2, int a3)
+{
+  _BYTE *v3; // r4
+  signed int v4; // r5
+  int v5; // r6
+  unsigned int v6; // r7
+  int v7; // r0
+  char **v8; // r1
+  _BYTE *v9; // r0
+  int v10; // r2
+  int result; // r0
+  int v12; // [sp+8h] [bp-124h]
+  int a2a; // [sp+Ch] [bp-120h]
+  int v14; // [sp+10h] [bp-11Ch]
+  int *v15; // [sp+14h] [bp-118h]
+
+  a2a = a3;
+  v12 = a2;
+  v3 = a1;
+  v4 = 256;
+  v5 = 0;
+  memset_0();
+  v6 = 0;
+  do
+  {
+    v3[v6] = v6;
+    v7 = mod(v6, a2a);
+    v8 = (char **)&amp;v15;
+    *((_BYTE *)&amp;v15 + v6++) = *(_BYTE *)(v12 + v7);
+  }
+  while ( v6 != 256 );
+  v9 = v3;
+  do
+  {
+    v10 = (unsigned __int8)*v9;
+    v5 = (v10 + v5 + *(unsigned __int8 *)v8) % 256;
+    *v9 = v3[v5];
+    v3[v5] = v10;
+    --v4;
+    v8 = (char **)((char *)v8 + 1);
+    ++v9;
+  }
+  while ( v4 );
+  result = _stack_chk_guard - v14;
+  if ( _stack_chk_guard != v14 )
+  {
+    ((void (*)(void))unk_E15BF3EC)();
+    JUMPOUT(&amp;unk_E15D7BA4);
+  }
+  return result;
+}
+</code></pre><p>key1计算得出key3，用key3进行解密</p>
+<pre><code>// sub_E159CEB4(&amp;key3, info.dex[x].data, info.dex[x].data_size);
+int __fastcall sub_E159CEB4(int result, _BYTE *a2, int a3)
+{
+  int v3; // r3
+  int v4; // r4
+  int v5; // r3
+  int v6; // ST08_4
+  _BYTE *v7; // r6
+  int v8; // r3
+  int v9; // r5
+  _BYTE *v10; // r0
+
+  v3 = 0;
+  if ( a3 )
+  {
+    v4 = 0;
+    do
+    {
+      v5 = (v3 + 1) % 256;
+      v6 = v5;
+      v7 = (_BYTE *)(result + v5);
+      v8 = *(unsigned __int8 *)(result + v5);
+      v9 = result;
+      v4 = (v8 + v4) % 256;
+      v10 = (_BYTE *)(result + v4);
+      *v7 = *v10;
+      *v10 = v8;
+      result = v9;
+      *a2 ^= *(_BYTE *)(v9 + (((unsigned __int8)*v7 + v8) &amp; 0xFF));
+      v3 = v6;
+      --a3;
+      ++a2;
+    }
+    while ( a3 );
+  }
+  return result;
+}
+</code></pre><h5 id="第二步解密"><a href="#第二步解密" class="headerlink" title="第二步解密"></a>第二步解密</h5><p>上一步得到的结果用lzma解压后，将每个字节与key2进行异或就可以了。</p>
+<h3 id="指令还原"><a href="#指令还原" class="headerlink" title="指令还原"></a>指令还原</h3><p>原指令被加密并且<code>opcode</code>被改为私有的指令，将加密的指令使用<code>0x65</code>异或得到除<code>opcode</code>的原指令。比如：</p>
+<pre><code>// 原指令
+6E 20 E7 2B 32 00
+// 加密后的指令
+A9 45 82 4E 57 65
+// xor 0x65
+CC 20 E7 2B 32 00
+</code></pre><p>壳通过<code>table[私有指令(上例的0xCC) + 0x5C]</code>得到一个操作数，用这个操作数跳转到对应的 switch case 执行相应的dalvik指令。</p>
+<p>然后使用参考2的方法还原所有指令：</p>
+<blockquote>
+<p>有一个好点的办法就是：自己在onCreate方法中将所有的dalvik指令，一共200多条全部写出来。然后用360加固，动态调试，总结出每条dalvik指令对应的360解释器的case处理指令的偏移，最后得到一张指令映射表。这样，后续在脱壳的时候，就可以根据解释执行代码的偏移，还原出原来的指令。当然，360解释器也是在不断变化的，所以，这个表也是要跟着变化的。</p>
+</blockquote>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://bbs.pediy.com/thread-223699.htm" target="_blank" rel="external">[1] 某VMP加固onCreate方法分析 </a></p>
+<p><a href="https://bbs.pediy.com/thread-223528.htm" target="_blank" rel="external">[2] 某数字公司VMP脱壳简记 </a> </p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-02-13T10:35:27.087Z" itemprop="dateUpdated">2018-02-13 18:35:27</time>
+</span><br>
+
+
+        
+        本文章仅供学习交流，请勿用于其他用途。如果侵犯了您的权力，请与本人联系。</br>转载请注明出处：<a href="/2018/02/10/post/" target="_blank" rel="external">http://www.ench4nt3r.com/2018/02/10/post/</a>
+        
+    </div>
+    <footer>
+        <a href="http://www.ench4nt3r.com">
+            <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" alt="ench4nt3r">
+            ench4nt3r
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2018/02/10/post/&title=《数字加固分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2018/02/10/post/&title=《数字加固分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2018/02/10/post/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数字加固分析》 — 我的世界&url=http://www.ench4nt3r.com/2018/02/10/post/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2018/02/10/post/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/02/26/post/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">ollvm源码分析</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/01/31/post/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">某加密加固分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=2138344"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2018/02/10/post/&title=《数字加固分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2018/02/10/post/&title=《数字加固分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2018/02/10/post/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数字加固分析》 — 我的世界&url=http://www.ench4nt3r.com/2018/02/10/post/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2018/02/10/post/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxklEQVR42u3aQWoDMQwF0Nz/0il0VSiZfEm2Jy3Pq9CQ8ZsuhPTtxyNez+/18/Pv1fv2sWPh4uKOuc/LlWxz/dvr184NuLi457n5o/NvX4GSJ7z8Oy4u7odxrwtZstl1ocTFxf1/3KRI4eLi/i1uMvwkuISVhym4uLh3cXuB6drP2/NdXFzcRacS1eJSPTIp74iLi3uEOxly8ki02iq9KXa4uLhHuJNxJYlHE2j5cgYuLu42bvUY9fqNq9tX2yZcXNwz3KTV6B17VI9eCrEpLi7uZu6q+CMfZnrcQo6Ci4s75vYe0Rtmqi1R4VgFFxd3G7dXpCbxR94k4eLi3svNy02vFCYXLwqNDi4u7gZurzxNLm/lBa6Q3+Di4m7gTorO/DC12X/h4uJu4+YRSX79orplL7TFxcXdx61et5oEoPm/oDn84OLiLuImYcekKZk0Lm/aLFxc3G3cZ3HlL5YXvkJxxMXFPcKdlJX8gmY1VG2e+eDi4i7l5sWrGn1OCtnL0omLi3uQ22tWelc5e3EtLi7u53OT0WgevxbyG1xc3Ju4PdCqyQUXF/c8d/KIVUNO9CtcXNwj3GpgmrQ4eeHbnu/i4uLWuF9xLGzDXtX9GAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>乐固（libshella 2.10.5.7）加固分析 | 我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android加固">
+    <meta name="description" content="0x1 init_array[0]函数在第一个init_array函数中，首先会对 0x2000 - 0x3AAC的这块区域解密，解密代码如下： 1234567891011121314151617181920byte v98 = 43;byte v89 = -111;byte v97 = -103;byte v96 = 32;byte v95 = 21;byte v87 = 0;byte *v88">
+<meta name="keywords" content="Android加固">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐固（libshella 2.10.5.7）加固分析">
+<meta property="og:url" content="http://www.ench4nt3r.com/2017/09/10/legu_reverse/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:description" content="0x1 init_array[0]函数在第一个init_array函数中，首先会对 0x2000 - 0x3AAC的这块区域解密，解密代码如下： 1234567891011121314151617181920byte v98 = 43;byte v89 = -111;byte v97 = -103;byte v96 = 32;byte v95 = 21;byte v87 = 0;byte *v88">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-09-10T09:58:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐固（libshella 2.10.5.7）加固分析">
+<meta name="twitter:description" content="0x1 init_array[0]函数在第一个init_array函数中，首先会对 0x2000 - 0x3AAC的这块区域解密，解密代码如下： 1234567891011121314151617181920byte v98 = 43;byte v89 = -111;byte v97 = -103;byte v96 = 32;byte v95 = 21;byte v87 = 0;byte *v88">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">乐固（libshella 2.10.5.7）加固分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">乐固（libshella 2.10.5.7）加固分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-09-10T09:37:00.000Z" itemprop="datePublished" class="page-time">
+  2017-09-10
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0x1-init-array-0-函数"><span class="post-toc-number">1.</span> <span class="post-toc-text">0x1 init_array[0]函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0x2-反调试"><span class="post-toc-number">2.</span> <span class="post-toc-text">0x2 反调试</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0x3-JNI-Onload"><span class="post-toc-number">3.</span> <span class="post-toc-text">0x3 JNI_Onload</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0x4-load的本地函数"><span class="post-toc-number">4.</span> <span class="post-toc-text">0x4 load的本地函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0x5-Art加载"><span class="post-toc-number">5.</span> <span class="post-toc-text">0x5 Art加载</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0x6-Dalvik加载"><span class="post-toc-number">6.</span> <span class="post-toc-text">0x6 Dalvik加载</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0x7-附件"><span class="post-toc-number">7.</span> <span class="post-toc-text">0x7 附件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0x8-参考"><span class="post-toc-number">8.</span> <span class="post-toc-text">0x8 参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-legu_reverse"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">乐固（libshella 2.10.5.7）加固分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-09-10 17:37:00" datetime="2017-09-10T09:37:00.000Z"  itemprop="datePublished">2017-09-10</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="0x1-init-array-0-函数"><a href="#0x1-init-array-0-函数" class="headerlink" title="0x1 init_array[0]函数"></a>0x1 init_array[0]函数</h3><p>在第一个init_array函数中，首先会对 0x2000 - 0x3AAC的这块区域解密，解密代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">byte v98 = <span class="number">43</span>;</div><div class="line">byte v89 = <span class="number">-111</span>;</div><div class="line">byte v97 = <span class="number">-103</span>;</div><div class="line">byte v96 = <span class="number">32</span>;</div><div class="line">byte v95 = <span class="number">21</span>;</div><div class="line">byte v87 = <span class="number">0</span>;</div><div class="line">byte *v88 = base_addr;</div><div class="line">mprotect(base_addr + <span class="number">0x2000</span>, <span class="number">0x2000</span>, PROT_READ | PROT_WRITE);</div><div class="line"><span class="keyword">for</span> ( j = <span class="number">0x2000</span>; j &lt;= <span class="number">0x3AAC</span>; ++j)</div><div class="line">&#123;</div><div class="line">  v87 = v88[j];</div><div class="line">  v89 = (((v97 - v96) ^ j) + v95) ^ v98;</div><div class="line">  v88[j] ^= v89;</div><div class="line">  v88[j] += v96 &amp; v95 ^ v97;</div><div class="line">  v98 += (v97 + v96 - v95) &amp; v87 &amp; j;</div><div class="line">  v97 += (j + v98) ^ v87;</div><div class="line">  v96 ^= (v87 - v98) ^ j;</div><div class="line">  v95 += j - (v87 + v98);</div><div class="line">&#125;</div><div class="line">mprotect(base_addr + <span class="number">0x2000</span>, <span class="number">0x2000</span>, PROT_READ | PROT_EXEC);</div></pre></td></tr></table></figure>
+<p>解密会解出<code>JNI_Onload</code>和一个反调试函数，在解密完成后会调用<code>pthread_create</code>创建一个线程执行反调试函数。</p>
+<p><br></p>
+<h3 id="0x2-反调试"><a href="#0x2-反调试" class="headerlink" title="0x2 反调试"></a>0x2 反调试</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub_36E8</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> result; <span class="comment">// r0@1</span></div><div class="line">  <span class="keyword">int</span> v1; <span class="comment">// [sp+4h] [bp-8h]@1</span></div><div class="line"></div><div class="line">  v1 = <span class="number">0</span>;</div><div class="line">  dword_5018 = <span class="number">0</span>;</div><div class="line">  result = pthread_create((<span class="keyword">int</span>)&amp;v1, <span class="number">0</span>, (<span class="keyword">int</span>)sub_335C, g_base_addr);</div><div class="line">  dword_501C = <span class="number">1</span>;</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>反调试的手段有3种，分别是：</p>
+<pre><code>1.监听/proc/self/mem, /proc/self/task/&lt;thread_id&gt;/mem的改变
+2.检测/prc/self/status的State和TracerPid字段
+3.对LOAD0(Program header)段进行校验
+</code></pre><p><br></p>
+<h3 id="0x3-JNI-Onload"><a href="#0x3-JNI-Onload" class="headerlink" title="0x3 JNI_Onload"></a>0x3 JNI_Onload</h3><p>这是一个假JNI_Onload，主要工作是解压出真正的so。</p>
+<p><br><br>解压之前，会从文件偏移0x7DF8处读出一个结构体，存储着解压的必要信息。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">compression_info</span> &#123;</span></div><div class="line">	<span class="keyword">void</span>*	min_vaddr;</div><div class="line">	<span class="keyword">int</span>		size;</div><div class="line">	int16	segment_offset;	<span class="comment">// 需要被解压的段的偏移 (段结构: segment_compression_info)</span></div><div class="line">	int16	segment_num;		<span class="comment">// 段的数量</span></div><div class="line">	<span class="keyword">int</span>		unknow2;</div><div class="line">	<span class="keyword">int</span>		strtab;				<span class="comment">// 字符串表偏移</span></div><div class="line">	<span class="keyword">int</span>		symtab;			<span class="comment">// 符号表偏移</span></div><div class="line">	<span class="keyword">int</span>		init_func;		        <span class="comment">// init_func偏移</span></div><div class="line">	<span class="keyword">int</span>		init_array;			<span class="comment">// init_array偏移</span></div><div class="line">	<span class="keyword">int</span>		unknow7;</div><div class="line">	<span class="keyword">int</span>		unknow8;</div><div class="line">	int16	unknow9;</div><div class="line">	int16	init_array_num;</div><div class="line">	int16	needed_so_num;	<span class="comment">// 需要被加载的动态库数量</span></div><div class="line">	int16	unknow11;</div><div class="line">	<span class="keyword">int</span>		needed_so_tab;	<span class="comment">// 需要被加载的动态库表的偏移</span></div><div class="line">	<span class="keyword">int</span>		unknow13;</div><div class="line">	<span class="keyword">int</span>		symtab_num;</div><div class="line">	<span class="keyword">int</span>		hashtab;</div><div class="line">	<span class="keyword">int</span>		relocate0_tab;		<span class="comment">// 第一个重定位表的偏移</span></div><div class="line">	<span class="keyword">int</span>		relocate0_num;</div><div class="line">	<span class="keyword">int</span>		relocate1_num;</div><div class="line">	<span class="keyword">int</span>		relocate1_tab;		<span class="comment">// 第二个重定位表的偏移</span></div><div class="line">	<span class="keyword">int</span>		unknow14;</div><div class="line">	<span class="keyword">int</span>		unknow16;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">segment_compression_info</span> &#123;</span></div><div class="line">	<span class="keyword">int</span>		vaddr;</div><div class="line">	<span class="keyword">int</span>		memsz;</div><div class="line">	<span class="keyword">int</span>		offset;</div><div class="line">	<span class="keyword">int</span>		filesz;</div><div class="line">	<span class="keyword">int</span>		flags;</div><div class="line">	<span class="keyword">int</span>		encrypted_size;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>读完必要的信息之后，对每个段进行解压：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> ( (<span class="keyword">unsigned</span> __int16)v17.segment_num &gt; v38 )</div><div class="line">&#123;</div><div class="line">  v29 = segment_data-&gt;vaddr + load_bias;</div><div class="line">  v28 = segment_data-&gt;memsz + v29;</div><div class="line">  v27 = v29 &amp; <span class="number">0xFFFFF000</span>;</div><div class="line">  v26 = (v28 + <span class="number">4095</span>) &amp; <span class="number">0xFFFFF000</span>;</div><div class="line">  v25 = v26 - (v29 &amp; <span class="number">0xFFFFF000</span>);</div><div class="line">  uncompressed_size = <span class="number">0</span>;                      <span class="comment">// 已解压的数据大小</span></div><div class="line">  infsize = <span class="number">0</span>;</div><div class="line">  <span class="keyword">if</span> ( segment_data-&gt;filesz )</div><div class="line">  &#123;</div><div class="line">    v9 = <span class="number">-1</span>;</div><div class="line">    v10 = <span class="number">0</span>;</div><div class="line">    mmap(v27, v25, <span class="number">3</span>, <span class="number">50</span>);</div><div class="line">    v13.zalloc = <span class="number">0</span>;</div><div class="line">    v13.zfree = <span class="number">0</span>;</div><div class="line">    v13.opaque = <span class="number">0</span>;</div><div class="line">    v13.avail_in = <span class="number">0</span>;</div><div class="line">    v13.next_in = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span> ( inflateInit2_(&amp;v13, <span class="number">-15</span>, <span class="string">"1.2.3"</span>, <span class="number">56</span>) )</div><div class="line">      ;</div><div class="line">    <span class="keyword">while</span> ( segment_data-&gt;filesz &gt; uncompressed_size )</div><div class="line">    &#123;</div><div class="line">      <span class="comment">// 每次只解压1KB</span></div><div class="line">      <span class="keyword">if</span> ( uncompressed_size + <span class="number">4096</span> &lt;= segment_data-&gt;filesz )</div><div class="line">        <span class="comment">// 大于0x1000</span></div><div class="line">        v4 = <span class="number">4096</span>;</div><div class="line">      <span class="keyword">else</span></div><div class="line">        <span class="comment">// 剩余的size</span></div><div class="line">        v4 = segment_data-&gt;filesz - uncompressed_size;</div><div class="line">      v24 = v4;</div><div class="line">      <span class="keyword">if</span> ( uncompressed_size + <span class="number">4096</span> &lt;= segment_data-&gt;encrypted_size )</div><div class="line">        v5 = <span class="number">4096</span>;</div><div class="line">      <span class="keyword">else</span></div><div class="line">        v5 = segment_data-&gt;encrypted_size - uncompressed_size;</div><div class="line">      v23 = v5;</div><div class="line">      </div><div class="line">      <span class="comment">// 读段数据</span></div><div class="line">      v24 = pread(v33, &amp;v14, v24, segment_data-&gt;offset + offset + uncompressed_size);</div><div class="line">      </div><div class="line">      <span class="comment">// 解密</span></div><div class="line">      sub_122C((<span class="keyword">int</span>)<span class="string">"Tx:12345Tx:12345"</span>, (<span class="keyword">int</span>)&amp;v14, v23, <span class="number">16</span>);</div><div class="line">      </div><div class="line">      <span class="comment">// 解压</span></div><div class="line">      v13.avail_in = v24;</div><div class="line">      v13.next_in = (Bytef *)&amp;v14;</div><div class="line">      _android_log_print(<span class="number">6</span>, <span class="string">"txtag"</span>, <span class="string">"read count:%x"</span>, v24, v9, v10);</div><div class="line">      v13.avail_out = <span class="number">0x100000</span>;</div><div class="line">      v13.next_out = (Bytef *)(infsize + v29);</div><div class="line">      v22 = inflate(&amp;v13, <span class="number">0</span>);                 </div><div class="line">      infsize = infsize - v13.avail_out + <span class="number">0x100000</span>;</div><div class="line">      uncompressed_size += v24;</div><div class="line">    &#125;</div><div class="line">    inflateEnd(&amp;v13);</div><div class="line">    <span class="keyword">for</span> ( i = v29; infsize + v29 &gt; i; i += <span class="number">1024</span> )</div><div class="line">      cacheflush_0(i, <span class="number">1024</span>);</div><div class="line">    _android_log_print(</div><div class="line">      <span class="number">6</span>,</div><div class="line">      <span class="string">"txtag"</span>,</div><div class="line">      <span class="string">"seg_start:%p size:%x infsize:%x offset:%x\n"</span>,</div><div class="line">      v29,</div><div class="line">      segment_data-&gt;filesz,</div><div class="line">      infsize,</div><div class="line">      segment_data-&gt;offset);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> ( segment_data-&gt;flags &amp; <span class="number">2</span> &amp;&amp; (<span class="keyword">signed</span> <span class="keyword">int</span>)(infsize &amp; <span class="number">0xFFF</span>) &gt; <span class="number">0</span> )</div><div class="line">    <span class="built_in">memset</span>((<span class="keyword">void</span> *)(infsize + v29), <span class="number">0</span>, <span class="number">4096</span> - ((infsize + v29) &amp; <span class="number">0xFFF</span>));</div><div class="line">  ++v38;</div><div class="line">  ++segment_data;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，在解压之前，还会对段数据进行解密：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">signed</span> <span class="keyword">int</span> __<span class="function">fastcall <span class="title">sub_122C</span><span class="params">(<span class="keyword">int</span> a1, <span class="keyword">int</span> a2, <span class="keyword">unsigned</span> <span class="keyword">int</span> a3, <span class="keyword">int</span> a4)</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> v5; <span class="comment">// [sp+0h] [bp-24h]@1</span></div><div class="line">  <span class="keyword">int</span> v6; <span class="comment">// [sp+Ch] [bp-18h]@1</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v7; <span class="comment">// [sp+10h] [bp-14h]@1</span></div><div class="line">  <span class="keyword">int</span> v8; <span class="comment">// [sp+14h] [bp-10h]@1</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> i; <span class="comment">// [sp+18h] [bp-Ch]@5</span></div><div class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v10; <span class="comment">// [sp+1Ch] [bp-8h]@1</span></div><div class="line"></div><div class="line">  v6 = a1;</div><div class="line">  v5 = a4;</div><div class="line">  v10 = <span class="number">0</span>;</div><div class="line">  v7 = a3 &gt;&gt; <span class="number">3</span>;</div><div class="line">  v8 = a2;</div><div class="line">  <span class="keyword">if</span> ( a1 &amp;&amp; a2 &amp;&amp; !(a3 &amp; <span class="number">7</span>) &amp;&amp; a4 )</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; v7; ++i )</div><div class="line">    &#123;</div><div class="line">      *(_DWORD *)v8 ^= *(_DWORD *)(v6 + <span class="number">8</span> * (v7 &amp; <span class="number">1</span>));</div><div class="line">      *(_DWORD *)(v8 + <span class="number">4</span>) ^= *(_DWORD *)(v6 + <span class="number">8</span> * (v7 &amp; <span class="number">1</span>) + <span class="number">4</span>);</div><div class="line">      </div><div class="line">      <span class="comment">// 调用TEA解密函数</span></div><div class="line">      <span class="comment">// 参数：</span></div><div class="line">      <span class="comment">// arg1: 待解密的数据</span></div><div class="line">      <span class="comment">// arg2: key</span></div><div class="line">      <span class="comment">// arg3: 输出结果的缓冲区</span></div><div class="line">      <span class="comment">// arg4: 轮数</span></div><div class="line">      tea_decrypt(v6, v8, v8, v5);</div><div class="line">      v8 += <span class="number">8</span>;</div><div class="line">    &#125;</div><div class="line">    v10 = <span class="number">1</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> v10;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>解压完成之后，将加载依赖的动态库，重定位，替换符号表value值，替换当前so的符号表、字符串表、哈希表，最后调用init_func和init_array的函数。</p>
+<p>在整个解压以及修复完成后，获取解压后的真·JNI_Onload函数，在真·JNI_Onload中调用RegisterNatives注册Java的Native函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> JNINativeMethod v6[] = &#123;</div><div class="line">	&#123;<span class="string">"load"</span>,　<span class="string">"(Landroid/content/Context;)V"</span>,　(<span class="keyword">void</span>*)<span class="number">0xEF0CD745</span>&#125;,</div><div class="line">	&#123;<span class="string">"runCreate"</span>,　<span class="string">"(Landroid/content/Context;)V"</span>,　(<span class="keyword">void</span>*)<span class="number">0xEF0C9B2D</span>&#125;, </div><div class="line">	&#123;<span class="string">"changeEnv"</span>,　<span class="string">"(Landroid/content/Context;)V"</span>,　(<span class="keyword">void</span>*)<span class="number">0xEF0C8CC5</span>&#125;, </div><div class="line">	&#123;<span class="string">"reciver"</span>,　<span class="string">"(Landroid/content/Intent;)V"</span>,　(<span class="keyword">void</span>*)<span class="number">0xEF0C534D</span>&#125;, </div><div class="line">	&#123;<span class="string">"txEntries"</span>,　<span class="string">"(Ldalvik/system/DexFile;)Ljava/util/Enumeration;"</span>,　(<span class="keyword">void</span>*)<span class="number">0xEF0C8BD9</span>&#125;</div><div class="line">&#125;; </div><div class="line"></div><div class="line">  v7 = (*a1)-&gt;FindClass(a1, <span class="string">"com/tencent/StubShell/TxAppEntry"</span>);</div><div class="line">  <span class="keyword">if</span> ( v7 )</div><div class="line">  &#123;</div><div class="line">    v8 = (*v5)-&gt;RegisterNatives(v5, v7, v6, <span class="number">5</span>);</div><div class="line">    v7 = (jclass)<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span> ( v8 &lt; <span class="number">0</span> )</div><div class="line">    &#123;</div><div class="line">      _android_log_print(<span class="number">3</span>, (<span class="keyword">int</span>)<span class="string">"SecShell"</span>, <span class="string">"register nativers error"</span>);</div><div class="line">      v7 = <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="0x4-load的本地函数"><a href="#0x4-load的本地函数" class="headerlink" title="0x4 load的本地函数"></a>0x4 load的本地函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> __<span class="function">fastcall <span class="title">com_tencent_StubShell_TxAppEntr_load</span><span class="params">(JNIEnv *a1, <span class="keyword">int</span> a2, <span class="keyword">int</span> context)</span></span></div><div class="line">&#123;</div><div class="line">  v3 = a1;</div><div class="line">  v4 = context;</div><div class="line">  v5 = hook_art_aoc();</div><div class="line">  v6 = j_j_j_getpid_0(v5);</div><div class="line">  _android_log_print(<span class="number">3</span>, (<span class="keyword">int</span>)<span class="string">"SecShell"</span>, <span class="string">"Start load %d"</span>, v6);</div><div class="line">  result = get_sdk_version(v3);</div><div class="line">  <span class="keyword">if</span> ( result )</div><div class="line">  &#123;</div><div class="line">    v8 = is_art((<span class="keyword">int</span>)v3);</div><div class="line">    sub_EF0C53E4(v3);                           <span class="comment">// 设置com/tencent/StubShell/TxReceiver的TX_RECIEVER字段</span></div><div class="line">    <span class="keyword">if</span> ( v8 )</div><div class="line">      result = art_load(v3, v4, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">    <span class="keyword">else</span></div><div class="line">      result = dalvik_load(v3, v4, <span class="number">0</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在load的本地函数中，根据当前虚拟机实现来加载Dex.</p>
+<p><br></p>
+<h3 id="0x5-Art加载"><a href="#0x5-Art加载" class="headerlink" title="0x5 Art加载"></a>0x5 Art加载</h3><p>加载的思路简单的概括如下：</p>
+<pre><code>1. 通过mCookie得到ShellDex的地址
+2. 通过ShellDex的 data_size + data_off 得到原Dex的偏移（偏移相对于ShellDex的地址），并得到原Dex内存地址
+3. 解密（TEA）原Dex后，在偏移0x20处得到整个原Dex大小
+4. Hook mmap函数, 当加载ShellDex时，替换成原Dex解密后的内容
+5. Hook fstat函数, 当加载ShellDex时，替换成原Dex的信息（重点是替换文件大小）
+6. 调用DexFile.load函数，加载ShellDex
+7. 如果有多个Dex，重复上面 2 - 6 步骤
+8. 构造一个新的Elements数组，替换当前ClassLoader.pathList.dexElements
+</code></pre><h3 id="0x6-Dalvik加载"><a href="#0x6-Dalvik加载" class="headerlink" title="0x6 Dalvik加载"></a>0x6 Dalvik加载</h3><p>加载的思路简单的概括如下：</p>
+<pre><code>1.  获取mCookie
+     1) 对于sdk大于10，通过ClassLoader.PathList.dexElements.dexFile获取mCookie
+     2) 对于sdk小于10，通过ClassLoader.mDexs获取mCookie
+2. 通过mCookie获取ShellDex的地址
+3. 通过ShellDex的 data_size + data_off 得到原Dex的偏移（偏移相对于ShellDex的地址），并得到原Dex内存地址
+4. 使用TEA解密原Dex
+5. 加载mix.dex
+6. 构造DexFile和DvmDex的实例，各个字段指向原Dex的信息
+7. 用新的DexFile和DvmDex实例，替换mix.dex的mCookie的相应字段
+8. 如果有多个Dex，根据当前原Dex的 data_size + data_off 获取下一个原Dex的偏移，然后重复上面 4 - 7 步骤
+9. 将加载的Dex加入当前类加载器
+    1) 对于sdk大于10，构造一个新的Elements数组，替换当前ClassLoader.pathList.dexElements
+    2) 对于sdk小于10，分别构造mDexs、mPaths、mFiles、mZips，替换当前ClassLoader的相应字段
+</code></pre><h3 id="0x7-附件"><a href="#0x7-附件" class="headerlink" title="0x7 附件"></a>0x7 附件</h3><p><a href="/files/Ctdu39b3zYrvOhJusVmX.idb" target="_blank">init_array解密.idb</a><br><a href="/files/xqZGFz0JIEVvEMd80jSH.idb" target="_blank">Fake_Jni_Onload解密.idb</a></p>
+<h3 id="0x8-参考"><a href="#0x8-参考" class="headerlink" title="0x8 参考"></a>0x8 参考</h3><p><a href="http://bbs.pediy.com/thread-218782.htm" target="_blank" rel="external">[1] 乐固libshella 2.10.1分析笔记 </a> </p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-09-10T09:58:31.000Z" itemprop="dateUpdated">2017-09-10 17:58:31</time>
+</span><br>
+
+
+        
+        转载请注明出处：<a href="/2017/09/10/legu_reverse/" target="_blank" rel="external">http://www.ench4nt3r.com/2017/09/10/legu_reverse/</a>
+        
+    </div>
+    <footer>
+        <a href="http://www.ench4nt3r.com">
+            <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" alt="ench4nt3r">
+            ench4nt3r
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android加固/">Android加固</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2017/09/10/legu_reverse/&title=《乐固（libshella 2.10.5.7）加固分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2017/09/10/legu_reverse/&title=《乐固（libshella 2.10.5.7）加固分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2017/09/10/legu_reverse/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《乐固（libshella 2.10.5.7）加固分析》 — 我的世界&url=http://www.ench4nt3r.com/2017/09/10/legu_reverse/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2017/09/10/legu_reverse/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/07/09/elf_in_ida/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">elf.h in IDA</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=2138344"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2017/09/10/legu_reverse/&title=《乐固（libshella 2.10.5.7）加固分析》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2017/09/10/legu_reverse/&title=《乐固（libshella 2.10.5.7）加固分析》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2017/09/10/legu_reverse/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《乐固（libshella 2.10.5.7）加固分析》 — 我的世界&url=http://www.ench4nt3r.com/2017/09/10/legu_reverse/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2017/09/10/legu_reverse/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACG0lEQVR42u3aMW4DMQwEwPz/0w6QLoWdXdIOcLpR5ULRaRSAEEl9fcXj8TOSOc9GsnIyfzUwMDAuy0g+/+z36w09+0o7JzoaDAyMGzDaUNiG4Dy8tkeGgYGB8To45uHy9UwMDAyMTwTczcz86omBgYHRJrE5JgckvDfn4hgYGBdktI2B//z9wf4GBgbGRRiPcuTB8V1luGhXGBgYRzPyUlp7+ds3KeuGBAYGxqGMPLHck9qLZhHEMTAwbsaYlcPaa19+HNEBYWBgHM3Iw26y6fYgZlQMDIx7MtpkcnaJzEtsm0QaAwPjPMasHJ8X2toVhk1TDAyMoxnJJjYPMpKSXPu3f7QwMTAwjmbk5bBZwrm/dP5BxcDAOJrRluOT5WbJ6mYdDAyMOzPaRPdzRzBreWJgYFydMWtAthfHJGjOHm38qhpiYGAcytg/btgkmUnDMm+UYmBgnM2YbTdPR2czk0snBgbGfRjvbQy0x9SSisdhGBgYRzDaqJyknXmFL18h+j9gYGAczXhXs3BWMsuD8tMQjIGBcTTj9cc2xfqW3ZbbMDAw7sN4lOPTTcr2AoqBgXEHxv5x2KzRONtolNBiYGAcyti3JzcluTxMR8/CMDAwjmbsg2y73VkTNGoPYGBg3Jixb0bmq9WBGwMDAyP+cD5nE2pXV0MMDIzLMpIkdjZzE1KLlTEwMI5mtCEv31b+gKPd+hCDgYFxPcY3qEYi4EgoTAgAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

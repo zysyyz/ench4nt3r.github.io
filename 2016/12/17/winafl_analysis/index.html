@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-81250907-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>浅谈Winafl | 我的世界 | 0.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Fuzz - Winafl">
+    <meta name="description" content="!! 这篇文章大部分内容丢失了，重要数据一定要备份！ Winafl的参数 covtype - 覆盖类型   覆盖类型分为bb(basic block)和edge两种类型，bb表示在记录被覆盖路径时只记录路径，而不像edge类型还记录从一个路径到另一个路径的转换。   比如以下的例子：  #1:   A -&amp;gt; B -&amp;gt; C -&amp;gt; D -&amp;gt; E #2:   A -&amp;gt; B">
+<meta name="keywords" content="Fuzz - Winafl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈Winafl">
+<meta property="og:url" content="http://www.ench4nt3r.com/2016/12/17/winafl_analysis/index.html">
+<meta property="og:site_name" content="我的世界">
+<meta property="og:description" content="!! 这篇文章大部分内容丢失了，重要数据一定要备份！ Winafl的参数 covtype - 覆盖类型   覆盖类型分为bb(basic block)和edge两种类型，bb表示在记录被覆盖路径时只记录路径，而不像edge类型还记录从一个路径到另一个路径的转换。   比如以下的例子：  #1:   A -&amp;gt; B -&amp;gt; C -&amp;gt; D -&amp;gt; E #2:   A -&amp;gt; B">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-15T15:20:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈Winafl">
+<meta name="twitter:description" content="!! 这篇文章大部分内容丢失了，重要数据一定要备份！ Winafl的参数 covtype - 覆盖类型   覆盖类型分为bb(basic block)和edge两种类型，bb表示在记录被覆盖路径时只记录路径，而不像edge类型还记录从一个路径到另一个路径的转换。   比如以下的例子：  #1:   A -&amp;gt; B -&amp;gt; C -&amp;gt; D -&amp;gt; E #2:   A -&amp;gt; B">
+    
+        <link rel="alternate" type="application/atom+xml" title="我的世界" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ench4nt3r</h5>
+          <a href="mailto:82369082@qq.com" title="82369082@qq.com" class="mail">82369082@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ench4nt3r" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">浅谈Winafl</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">浅谈Winafl</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-12-16T16:00:00.000Z" itemprop="datePublished" class="page-time">
+  2016-12-17
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Winafl的参数"><span class="post-toc-number">1.</span> <span class="post-toc-text">Winafl的参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Afl的参数"><span class="post-toc-number">2.</span> <span class="post-toc-text">Afl的参数</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-winafl_analysis"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">浅谈Winafl</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-12-17 00:00:00" datetime="2016-12-16T16:00:00.000Z"  itemprop="datePublished">2016-12-17</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><strong> !! 这篇文章大部分内容丢失了，重要数据一定要备份！</strong></p>
+<h3 id="Winafl的参数"><a href="#Winafl的参数" class="headerlink" title="Winafl的参数"></a>Winafl的参数</h3><ul>
+<li><p>covtype - 覆盖类型</p>
+<p>  覆盖类型分为bb(basic block)和edge两种类型，bb表示在记录被覆盖路径时只记录路径，而不像edge类型还记录从一个路径到另一个路径的转换。</p>
+<p>  比如以下的例子：</p>
+<blockquote>
+<p>#1:   A -&gt; B -&gt; C -&gt; D -&gt; E</p>
+<p>#2:   A -&gt; B -&gt; D -&gt; C -&gt; E</p>
+</blockquote>
+<p>  在bb类型中，只记录了程序走过这5个路径，而不记录走过的顺序，所以bb类型无法区分<code>#1</code>和<code>#2</code>有什么不同。而edge通过以下<a href="http://lcamtuf.coredump.cx/afl/technical_details.txt" target="_blank" rel="external">算法</a>来记录路径的转换。</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cur_location = &lt;COMPILE_TIME_RANDOM&gt;;</div><div class="line">shared_mem[cur_location ^ prev_location]++; </div><div class="line">prev_location = cur_location &gt;&gt; <span class="number">1</span>;</div></pre></td></tr></table></figure>
+<p>  bb类型记录路径在winafl的实现：</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">offset = cur_location - module_base_address;</div><div class="line">offset &amp;= MAP_SIZE - <span class="number">1</span>;</div><div class="line">shared_mem[offset]++;</div></pre></td></tr></table></figure>
+</li>
+<li><p>target_module &amp;&amp; (target_method || target_offset) - 目标函数</p>
+<p>  当使用<code>target_module</code>参数，则必须指定<code>target_method</code>或<code>target_offset</code>。</p>
+<p>  这些参数的作用是当被fuzz的程序执行到指定的目标函数时，winafl记录当前参数；而当执行完这个函数准备退出时，winafl会恢复PC指针、栈顶指针和先前记录的参数，从而使得程序回到目标函数迭代执行。</p>
+<p>  Winafl保存的参数数量根据winafl的<code>nargs</code>参数而定，默认是0。 迭代的次数根据<code>fuzz_iterations</code>参数，默认是1000。</p>
+</li>
+</ul>
+<h3 id="Afl的参数"><a href="#Afl的参数" class="headerlink" title="Afl的参数"></a>Afl的参数</h3><ul>
+<li><p>i - 样本目录</p>
+<p>  顾名思义，这个参数指向放着样本的目录。当参数值是 <em>-</em> 时，afl会恢复上次执行。</p>
+</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-07-15T15:20:27.000Z" itemprop="dateUpdated">2017-07-15 23:20:27</time>
+</span><br>
+
+
+        
+        转载请注明出处：<a href="/2016/12/17/winafl_analysis/" target="_blank" rel="external">http://www.ench4nt3r.com/2016/12/17/winafl_analysis/</a>
+        
+    </div>
+    <footer>
+        <a href="http://www.ench4nt3r.com">
+            <img src="/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" alt="ench4nt3r">
+            ench4nt3r
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Fuzz-Winafl/">Fuzz - Winafl</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/&title=《浅谈Winafl》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/&title=《浅谈Winafl》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《浅谈Winafl》 — 我的世界&url=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/07/09/elf_in_ida/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">elf.h in IDA</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/11/20/漏洞战争笔记之Cve-2010-3333/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">漏洞战争笔记之Cve-2010-3333</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+<section class="comments" id="comments">
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script src="http://v2.uyan.cc/code/uyan.js?uid=2138344"></script>
+    <!-- UY END -->
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ench4nt3r &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/&title=《浅谈Winafl》 — 我的世界&pic=http://www.ench4nt3r.com/img/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/&title=《浅谈Winafl》 — 我的世界&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《浅谈Winafl》 — 我的世界&url=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/&via=http://www.ench4nt3r.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.ench4nt3r.com/2016/12/17/winafl_analysis/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIklEQVR42u3ay47CMAwFUP7/pztbJAa4tguiyckKQdXmdGH8yO0Wr+PJuv/12ZXJPZ99c/LCwMC4LON4uV4/8vHz4517LyLfGwYGxj6MZBP5hvKgmb+sN3vGwMDAeLgm33qVioGBgfGdgJsDfvp/AwMD48cYk4baPBFMEs3TanEMDIwLMnqP/87nj8w3MDAwLsU4iquarlXHmc1dYWBgLM3IA1xvANkbAFT3g4GBsTbjrNZ8UnxWE83CQBQDA2MDRv743mDyc+B/MlwMDIzlGHnwTR6WF7GTKwt9QQwMjIUY82NbyQCyB8tfNwYGxtqMeT04b/3Pq1EMDIwdGNUELh9eTtLHPPRjYGCsysjD6LxNNj8QVugaYmBgLMTIx5a9oeZZpXIhDcXAwFiOkSRqeTo4KWurLTYMDIx9GL1RZRUzHzaUU0MMDIyFGL0itnp0LE8im4kjBgbG0ozC8YVxwlc9YJG/XAwMjB0YkwRxUuhWB5mFO2NgYCzH6B0VnR+nqB7XeBOUMTAwNmb0MPmYIQnZ0SvDwMDYkjEPtcl95s/FwMBYm3EUVzWk5mG0OsJsTjAwMDAuyOgFu+oI83VozsvUeYjHwMC4LmMeZKtBPDl+UQVjYGDswEhu3Qum56Z95TMjGBgYGK2QWk0KoyYdBgYGRjDm7AXf6gjh5ICLgYFxKUa1WV9tmVVL4mojDwMDY21G72BEsrlJEM+DLwYGxtKMP3zqIuDaoKdRAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
